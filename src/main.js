@@ -7,6 +7,8 @@ document.querySelector("#app").innerHTML = `
     <a class="brand" href="/" aria-label="Brian Flieck home">Brian Flieck</a>
     <nav aria-label="Primary navigation">
       <a href="#profile">Profile</a>
+      <a href="#work">Work</a>
+      <a href="#systems">Systems</a>
       <a href="#experience">Experience</a>
       <a href="#skills">Skills</a>
       <a href="${resumeUrl}">PDF</a>
@@ -185,6 +187,52 @@ document.querySelector("#app").innerHTML = `
             <p><strong>Global Sports</strong> <span>Intern / Production Artist, 1999 - 2002</span></p>
           </div>
         </section>
+      </div>
+    </section>
+
+    <section class="portfolio-section" id="work">
+      <div class="section-title">
+        <h2>Selected Projects</h2>
+        <span aria-hidden="true"></span>
+      </div>
+      <div class="project-grid">
+        <article class="project-card">
+          <p class="date">E-commerce</p>
+          <h3>Photography & Video Projects</h3>
+          <p>Product-focused visual systems for commerce, campaign, and digital merchandising work.</p>
+          <a href="mailto:brianflieck@gmail.com?subject=Photography%20and%20Video%20Projects">Discuss Case Study</a>
+        </article>
+        <article class="project-card">
+          <p class="date">Operations</p>
+          <h3>E-commerce Photography Workflows</h3>
+          <p>Workflow planning, intake, tracking, review, and delivery systems for high-volume creative production.</p>
+          <a href="mailto:brianflieck@gmail.com?subject=E-commerce%20Photography%20Workflows">Discuss Case Study</a>
+        </article>
+        <article class="project-card">
+          <p class="date">Product</p>
+          <h3>Best in Coat</h3>
+          <p>A concept combining brand, product presentation, and a sharper commerce experience.</p>
+          <a href="mailto:brianflieck@gmail.com?subject=Best%20in%20Coat">Discuss Project</a>
+        </article>
+      </div>
+    </section>
+
+    <section class="systems-band" id="systems">
+      <div>
+        <p class="name-kicker">Workflow Systems</p>
+        <h2>Creative operations that move faster because the process is designed.</h2>
+      </div>
+      <p>
+        Experience across Adobe Creative Cloud, Workfront, Workfront Fusion, Wrike, Smartsheet, Figma,
+        AI-assisted content generation, and cross-functional production systems.
+      </p>
+      <div class="systems-grid" aria-label="Creative operations capabilities">
+        <span>Creative Intake</span>
+        <span>Resource Matching</span>
+        <span>Asset Automation</span>
+        <span>AI Content Generation</span>
+        <span>Dashboarding</span>
+        <span>Workflow Governance</span>
       </div>
     </section>
 
