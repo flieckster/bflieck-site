@@ -10,7 +10,6 @@ const projectGroups = [
       "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/545c9f2e-f99d-4c14-afc8-46ce90d91437/REDslap1.jpg?format=1000w",
     summary:
       "A custom Workfront API dashboard that shows group projects, SLA health, planned versus actual milestone dates, issue duration, and timeline adjustments caused by project issues.",
-    source: "https://www.bflieck.com/sla-workfront-powered-dashboard",
   },
   {
     category: "Workflow Automation",
@@ -19,14 +18,12 @@ const projectGroups = [
       "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1569877842715-BHYJGAJ5H0TI2PWRTKST/01_sm.gif?format=1000w",
     summary:
       "A Google Charts workflow monitor that refreshed every 10 minutes, read image folders, surfaced due dates, and color-coded metadata so production teams could see what was ready to work.",
-    source: "https://www.bflieck.com/dynamic-workflow-chart",
   },
   {
     category: "Production Utility",
     title: "Dynamic Image Product Lookup App",
     summary:
       "An AppleScript droplet that let production staff drop in a file and retrieve product descriptions and color codes, reducing manual Workhorse lookups during image editing.",
-    source: "https://www.bflieck.com/dynamic-image-product-lookup-app",
   },
   {
     category: "E-commerce Video",
@@ -35,7 +32,6 @@ const projectGroups = [
       "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1578095189635-VS10MEABV9OP8ELYU4Y9/UAbefore.gif?format=1000w",
     summary:
       "A 360 shoe spin concept shot twice, once normally and once with controlled low-light reflection, then composited to show reflective performance in the same production framework.",
-    source: "https://www.bflieck.com/new-page",
   },
   {
     category: "Retouching",
@@ -44,21 +40,19 @@ const projectGroups = [
       "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1407977689844-E5D7DF1CSNWJXFTOD298/step3.jpg?format=1000w",
     summary:
       "A practical Photoshop problem-solving example: remove a polka-dot print, rebuild the garment tone, and overlay a leopard pattern while preserving the structure of the suit.",
-    source: "https://www.bflieck.com/digtial-overlay",
   },
   {
     category: "Content Scale",
     title: "Luma Color Changes",
+    video: "https://player.vimeo.com/video/101630008",
     summary:
       "A rapid content-scaling project that created hundreds of colorway variations from original fashion files to support a Magento color-search demo in under two weeks.",
-    source: "https://www.bflieck.com/luma-color-changes",
   },
   {
     category: "Motion Concepts",
     title: "TUMI Motion Studies",
     summary:
       "Parallax, stop-motion, and reflective-product concepts using static product assets, retouching consistency, and lightweight animation to extend e-commerce storytelling.",
-    source: "https://www.bflieck.com/parallax",
   },
   {
     category: "Brand Build",
@@ -67,7 +61,6 @@ const projectGroups = [
       "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1570375713078-GJ3IGK6CQURB7XS03T2W/IMG_4008.JPG?format=1000w",
     summary:
       "A small-business concept built from an empty space into a full brand, retail environment, and online presence.",
-    source: "https://www.bflieck.com/best-in-coat-1",
   },
 ];
 
@@ -75,13 +68,17 @@ const projectCards = projectGroups
   .map(
     (project) => `
         <article class="project-card">
+          ${
+            project.video
+              ? `<iframe class="project-video" src="${project.video}" title="${project.title}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>`
+              : ""
+          }
           ${project.image ? `<img src="${project.image}" alt="" loading="lazy">` : ""}
           <div>
             <p class="date">${project.category}</p>
             <h3>${project.title}</h3>
             <p>${project.summary}</p>
           </div>
-          <a href="${project.source}" target="_blank" rel="noreferrer">View Original</a>
         </article>
       `,
   )
@@ -110,7 +107,7 @@ document.querySelector("#app").innerHTML = `
 
       <div class="contact-strip" aria-label="Contact details">
         <span>Coatesville, PA</span>
-        <a href="https://www.bflieck.com">www.bflieck.com</a>
+        <span>www.bflieck.com</span>
         <a href="mailto:brianflieck@gmail.com">brianflieck@gmail.com</a>
         <a href="https://linkedin.com/in/brianflieck/">linkedin.com/in/brianflieck/</a>
       </div>

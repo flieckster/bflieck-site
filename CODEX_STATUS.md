@@ -1,15 +1,15 @@
 # Codex Status
 
-Last updated: 2026-05-21
+Last updated: 2026-05-22
 
 ## Current State
 
 - Repository: `/Users/brianflieck/career-ops/bflieck-site`
 - Branch: `main`
-- Git status at handoff: in progress, bflieck.com legacy content migration
+- Git status at handoff: in progress, Luma Vimeo embed and old-site link cleanup
 - Local branch status: synced with `origin/main`
-- Latest pushed commit before current work: `1a1f271 Restore portfolio sections below resume home`
-- Previous commits: `71f968d Create resume-based portfolio page`, `78be2a7 Update deployment workflow runtime`, `4f32e85 Initial portfolio site scaffold`
+- Latest pushed commit before current work: `2332b6d Migrate legacy portfolio content`
+- Previous commits: `1a1f271 Restore portfolio sections below resume home`, `71f968d Create resume-based portfolio page`, `78be2a7 Update deployment workflow runtime`, `4f32e85 Initial portfolio site scaffold`
 
 ## Deployment
 
@@ -54,6 +54,7 @@ npm run preview
 - User asked to restore the broader page structure while keeping the resume as the home page. Portfolio sections for Selected Projects and Workflow Systems were restored below the resume-home section.
 - Updated resume PDF was already pushed in commit `1a1f271`.
 - User asked to scrape bflieck.com for content to bring into the new site. Added a `projectGroups` data set in `src/main.js` with legacy portfolio content and source links for SLA Workfront dashboard, Dynamic Workflow Chart, Dynamic Image Product Lookup App, Under Armour Lights Out Concept, Digital Overlay, Luma Color Changes, TUMI Motion Studies, and Best In Coat.
+- User asked to embed Vimeo `101630008` for Luma Color Changes and remove clicks to the old bflieck.com site. Luma now uses a Vimeo iframe, project-card "View Original" links were removed, and `www.bflieck.com` in the contact strip is plain text instead of a link.
 - Added a Creative Foundation section using the old About Me positioning: art/design background, commercial studio craft, and operations systems.
 - Added remote Squarespace CDN thumbnails for selected migrated projects where usable image assets were exposed.
 - The page now uses the resume's look and feel: gray paper background, centered all-caps name, letter-spaced subtitle, bordered contact strip, section rules, and a two-column resume layout.

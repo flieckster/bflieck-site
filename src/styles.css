@@ -349,6 +349,14 @@ li {
   background: var(--hairline);
 }
 
+.project-video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  border-bottom: 1.5px solid var(--line);
+  background: var(--ink);
+}
+
 .project-card > div {
   padding: 24px 24px 0;
 }
@@ -361,16 +369,6 @@ li {
 
 .project-card p:not(.date) {
   color: var(--soft-ink);
-}
-
-.project-card a {
-  margin-top: auto;
-  padding: 24px;
-  color: var(--ink);
-  font-size: 12px;
-  font-weight: 900;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
 }
 
 .systems-band {
