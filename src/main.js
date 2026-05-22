@@ -2,11 +2,97 @@ import "./styles.css";
 
 const resumeUrl = new URL("../documents/Brian Flieck Creative Technology.pdf", import.meta.url).href;
 
+const projectGroups = [
+  {
+    category: "Workfront Systems",
+    title: "SLA Workfront-Powered Dashboard",
+    image:
+      "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/545c9f2e-f99d-4c14-afc8-46ce90d91437/REDslap1.jpg?format=1000w",
+    summary:
+      "A custom Workfront API dashboard that shows group projects, SLA health, planned versus actual milestone dates, issue duration, and timeline adjustments caused by project issues.",
+    source: "https://www.bflieck.com/sla-workfront-powered-dashboard",
+  },
+  {
+    category: "Workflow Automation",
+    title: "Dynamic Workflow Chart",
+    image:
+      "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1569877842715-BHYJGAJ5H0TI2PWRTKST/01_sm.gif?format=1000w",
+    summary:
+      "A Google Charts workflow monitor that refreshed every 10 minutes, read image folders, surfaced due dates, and color-coded metadata so production teams could see what was ready to work.",
+    source: "https://www.bflieck.com/dynamic-workflow-chart",
+  },
+  {
+    category: "Production Utility",
+    title: "Dynamic Image Product Lookup App",
+    summary:
+      "An AppleScript droplet that let production staff drop in a file and retrieve product descriptions and color codes, reducing manual Workhorse lookups during image editing.",
+    source: "https://www.bflieck.com/dynamic-image-product-lookup-app",
+  },
+  {
+    category: "E-commerce Video",
+    title: "Under Armour Lights Out Concept",
+    image:
+      "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1578095189635-VS10MEABV9OP8ELYU4Y9/UAbefore.gif?format=1000w",
+    summary:
+      "A 360 shoe spin concept shot twice, once normally and once with controlled low-light reflection, then composited to show reflective performance in the same production framework.",
+    source: "https://www.bflieck.com/new-page",
+  },
+  {
+    category: "Retouching",
+    title: "Digital Overlay",
+    image:
+      "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1407977689844-E5D7DF1CSNWJXFTOD298/step3.jpg?format=1000w",
+    summary:
+      "A practical Photoshop problem-solving example: remove a polka-dot print, rebuild the garment tone, and overlay a leopard pattern while preserving the structure of the suit.",
+    source: "https://www.bflieck.com/digtial-overlay",
+  },
+  {
+    category: "Content Scale",
+    title: "Luma Color Changes",
+    summary:
+      "A rapid content-scaling project that created hundreds of colorway variations from original fashion files to support a Magento color-search demo in under two weeks.",
+    source: "https://www.bflieck.com/luma-color-changes",
+  },
+  {
+    category: "Motion Concepts",
+    title: "TUMI Motion Studies",
+    summary:
+      "Parallax, stop-motion, and reflective-product concepts using static product assets, retouching consistency, and lightweight animation to extend e-commerce storytelling.",
+    source: "https://www.bflieck.com/parallax",
+  },
+  {
+    category: "Brand Build",
+    title: "Best In Coat",
+    image:
+      "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1570375713078-GJ3IGK6CQURB7XS03T2W/IMG_4008.JPG?format=1000w",
+    summary:
+      "A small-business concept built from an empty space into a full brand, retail environment, and online presence.",
+    source: "https://www.bflieck.com/best-in-coat-1",
+  },
+];
+
+const projectCards = projectGroups
+  .map(
+    (project) => `
+        <article class="project-card">
+          ${project.image ? `<img src="${project.image}" alt="" loading="lazy">` : ""}
+          <div>
+            <p class="date">${project.category}</p>
+            <h3>${project.title}</h3>
+            <p>${project.summary}</p>
+          </div>
+          <a href="${project.source}" target="_blank" rel="noreferrer">View Original</a>
+        </article>
+      `,
+  )
+  .join("");
+
 document.querySelector("#app").innerHTML = `
   <header class="site-header">
     <a class="brand" href="/" aria-label="Brian Flieck home">Brian Flieck</a>
     <nav aria-label="Primary navigation">
       <a href="#profile">Profile</a>
+      <a href="#origin">Origin</a>
       <a href="#work">Work</a>
       <a href="#systems">Systems</a>
       <a href="#experience">Experience</a>
@@ -190,30 +276,44 @@ document.querySelector("#app").innerHTML = `
       </div>
     </section>
 
-    <section class="portfolio-section" id="work">
+    <section class="portfolio-section origin-section" id="origin">
       <div class="section-title">
-        <h2>Selected Projects</h2>
+        <h2>Creative Foundation</h2>
         <span aria-hidden="true"></span>
       </div>
+      <div class="origin-grid">
+        <div>
+          <p>
+            The older portfolio tells the story clearly: art class was the place where the work clicked first, and
+            graphic design became the practical bridge between visual craft and computers.
+          </p>
+          <p>
+            That foundation grew into commercial studio leadership, image production, retouching systems, workflow
+            automation, and the production tools that help creative teams move faster without losing quality.
+          </p>
+        </div>
+        <aside>
+          <p class="date">Pulled from bflieck.com</p>
+          <h3>Commercial studio craft plus operational systems.</h3>
+          <p>
+            The legacy work spans e-commerce photography, animation concepts, colorway scaling, digital compositing,
+            production dashboards, product lookup utilities, and brand-building projects.
+          </p>
+        </aside>
+      </div>
+    </section>
+
+    <section class="portfolio-section" id="work">
+      <div class="section-title">
+        <h2>Legacy Portfolio</h2>
+        <span aria-hidden="true"></span>
+      </div>
+      <p class="section-intro">
+        Selected work migrated from the previous bflieck.com portfolio, reframed around creative technology,
+        e-commerce production, and workflow systems.
+      </p>
       <div class="project-grid">
-        <article class="project-card">
-          <p class="date">E-commerce</p>
-          <h3>Photography & Video Projects</h3>
-          <p>Product-focused visual systems for commerce, campaign, and digital merchandising work.</p>
-          <a href="mailto:brianflieck@gmail.com?subject=Photography%20and%20Video%20Projects">Discuss Case Study</a>
-        </article>
-        <article class="project-card">
-          <p class="date">Operations</p>
-          <h3>E-commerce Photography Workflows</h3>
-          <p>Workflow planning, intake, tracking, review, and delivery systems for high-volume creative production.</p>
-          <a href="mailto:brianflieck@gmail.com?subject=E-commerce%20Photography%20Workflows">Discuss Case Study</a>
-        </article>
-        <article class="project-card">
-          <p class="date">Product</p>
-          <h3>Best in Coat</h3>
-          <p>A concept combining brand, product presentation, and a sharper commerce experience.</p>
-          <a href="mailto:brianflieck@gmail.com?subject=Best%20in%20Coat">Discuss Project</a>
-        </article>
+        ${projectCards}
       </div>
     </section>
 
@@ -224,14 +324,15 @@ document.querySelector("#app").innerHTML = `
       </div>
       <p>
         Experience across Adobe Creative Cloud, Workfront, Workfront Fusion, Wrike, Smartsheet, Figma,
-        AI-assisted content generation, and cross-functional production systems.
+        AI-assisted content generation, cross-functional production systems, and the legacy production utilities
+        migrated from bflieck.com.
       </p>
       <div class="systems-grid" aria-label="Creative operations capabilities">
         <span>Creative Intake</span>
         <span>Resource Matching</span>
         <span>Asset Automation</span>
         <span>AI Content Generation</span>
-        <span>Dashboarding</span>
+        <span>SLA Dashboarding</span>
         <span>Workflow Governance</span>
       </div>
     </section>

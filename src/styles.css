@@ -294,6 +294,37 @@ li {
   background: var(--white);
 }
 
+.section-intro {
+  max-width: 780px;
+  margin: 18px 0 0;
+  color: var(--soft-ink);
+  font-size: clamp(16px, 1.7vw, 19px);
+}
+
+.origin-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(260px, 0.65fr);
+  gap: clamp(24px, 5vw, 56px);
+  margin-top: 24px;
+}
+
+.origin-grid p {
+  color: var(--soft-ink);
+  font-size: clamp(16px, 1.7vw, 19px);
+}
+
+.origin-grid aside {
+  padding: 22px;
+  border: 1.5px solid var(--line);
+  background: var(--sheet);
+}
+
+.origin-grid aside h3 {
+  margin: 8px 0 12px;
+  font-size: clamp(22px, 3vw, 30px);
+  line-height: 1.05;
+}
+
 .project-grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
@@ -305,9 +336,21 @@ li {
   min-height: 280px;
   display: flex;
   flex-direction: column;
-  padding: 24px;
+  overflow: hidden;
   border: 1.5px solid var(--line);
   background: var(--sheet);
+}
+
+.project-card img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-bottom: 1.5px solid var(--line);
+  background: var(--hairline);
+}
+
+.project-card > div {
+  padding: 24px 24px 0;
 }
 
 .project-card h3 {
@@ -322,7 +365,7 @@ li {
 
 .project-card a {
   margin-top: auto;
-  padding-top: 24px;
+  padding: 24px;
   color: var(--ink);
   font-size: 12px;
   font-weight: 900;
@@ -434,6 +477,7 @@ li {
   }
 
   .contact-strip,
+  .origin-grid,
   .resume-grid,
   .project-grid,
   .systems-grid {
