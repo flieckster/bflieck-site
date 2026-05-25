@@ -150,23 +150,33 @@ const renderHeader = () => `
 const renderHome = () => `
   ${renderHeader()}
   <main>
-    <section class="resume-sheet" aria-labelledby="resume-title">
+    <section class="resume-sheet dark-panel" aria-labelledby="resume-title">
       <div class="hero-lockup">
-        <p class="name-kicker">Creative Technology Operations</p>
-        <h1 id="resume-title">Brian Flieck</h1>
+        <div class="hero-copy">
+          <p class="name-kicker">Creative Technology Operations</p>
+          <h1 id="resume-title"><span>Brian</span><span>Flieck</span></h1>
+          <p class="hero-statement">
+            Creative operations leader and technologist building AI-enabled systems that help teams move faster,
+            produce better work, and reduce operational drag.
+          </p>
+        </div>
+        <div class="hero-mark" aria-hidden="true">
+          <span></span>
+          <strong>ops</strong>
+        </div>
       </div>
 
       <div class="contact-strip" aria-label="Contact details">
         <span>Coatesville, PA</span>
         <span>www.bflieck.com</span>
         <a href="mailto:brianflieck@gmail.com">brianflieck@gmail.com</a>
-        <a href="https://linkedin.com/in/brianflieck/">linkedin.com/in/brianflieck/</a>
+        <a href="https://linkedin.com/in/brianflieck/">linkedin.com/in/brianflieck</a>
       </div>
 
-      <section class="profile-section" id="profile">
+      <section class="profile-section intro-panel" id="profile">
         <div class="section-title">
-          <h2>Profile Info</h2>
-          <span aria-hidden="true"></span>
+          <p>Profile</p>
+          <h2>Creative operations leader with the hands-on builder mindset to turn complex workflow problems into usable systems.</h2>
         </div>
         <p class="profile-copy">
           Innovative professional with 24 years of experience in creative technology, operations, and product management.
@@ -231,6 +241,11 @@ const renderHome = () => `
             <p class="achievement-metric">KPIs</p>
             <h3>Established growth metrics</h3>
             <p>Established departmental year-over-year growth metrics aligned to company KPIs and production performance goals.</p>
+          </article>
+          <article>
+            <p class="achievement-metric">India</p>
+            <h3>Managed vendor partnerships</h3>
+            <p>Onboarded retouching partners in India, defining image volume estimates, pricing, billing, SLA terms, and operating processes.</p>
           </article>
         </div>
       </section>
