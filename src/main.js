@@ -217,6 +217,21 @@ const renderHome = () => `
             <h3>Helped scale studio business</h3>
             <p>Contributed to building a creative production operation that grew into a $23 million annual business.</p>
           </article>
+          <article>
+            <p class="achievement-metric">11</p>
+            <h3>Led and developed staff</h3>
+            <p>Led a staff of 11 people, hired two managers, and mentored them into leadership roles under my direction.</p>
+          </article>
+          <article>
+            <p class="achievement-metric">3</p>
+            <h3>Built remote studios</h3>
+            <p>Helped design and staff three remote studios, onboarding teams to shared production procedures, tools, and processes.</p>
+          </article>
+          <article>
+            <p class="achievement-metric">KPIs</p>
+            <h3>Established growth metrics</h3>
+            <p>Established departmental year-over-year growth metrics aligned to company KPIs and production performance goals.</p>
+          </article>
         </div>
       </section>
 
