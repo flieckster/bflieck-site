@@ -4,44 +4,67 @@ const resumeUrl = new URL("../documents/Brian Flieck Creative Technology.pdf", i
 
 const projectGroups = [
   {
+    slug: "sla-workfront-dashboard",
     category: "Workfront Systems",
     title: "SLA Workfront-Powered Dashboard",
     image:
       "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/545c9f2e-f99d-4c14-afc8-46ce90d91437/REDslap1.jpg?format=1000w",
+    images: [
+      "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/545c9f2e-f99d-4c14-afc8-46ce90d91437/REDslap1.jpg?format=1600w",
+      "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/de3cfffd-9419-4591-94a2-cacd542c5cd2/REDsladetails.jpg?format=1600w",
+      "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/7cedcceb-b0f3-4509-b49c-df4c5b52a790/REDslapage3.jpg?format=1600w",
+    ],
     summary:
       "A custom Workfront API dashboard that shows group projects, SLA health, planned versus actual milestone dates, issue duration, and timeline adjustments caused by project issues.",
   },
   {
+    slug: "dynamic-workflow-chart",
     category: "Workflow Automation",
     title: "Dynamic Workflow Chart",
     image:
       "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1569877842715-BHYJGAJ5H0TI2PWRTKST/01_sm.gif?format=1000w",
+    images: [
+      "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1569877842715-BHYJGAJ5H0TI2PWRTKST/01_sm.gif?format=1600w",
+    ],
     summary:
       "A Google Charts workflow monitor that refreshed every 10 minutes, read image folders, surfaced due dates, and color-coded metadata so production teams could see what was ready to work.",
   },
   {
+    slug: "dynamic-image-product-lookup",
     category: "Production Utility",
     title: "Dynamic Image Product Lookup App",
     summary:
       "An AppleScript droplet that let production staff drop in a file and retrieve product descriptions and color codes, reducing manual Workhorse lookups during image editing.",
   },
   {
+    slug: "under-armour-lights-out",
     category: "E-commerce Video",
     title: "Under Armour Lights Out Concept",
     image:
       "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1578095189635-VS10MEABV9OP8ELYU4Y9/UAbefore.gif?format=1000w",
+    images: [
+      "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1578095189635-VS10MEABV9OP8ELYU4Y9/UAbefore.gif?format=1600w",
+      "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1578096660551-9NESG678RV1LNYDI5YKE/Screen+Shot+2020-01-03+at+7.10.46+PM.png?format=1600w",
+    ],
     summary:
       "A 360 shoe spin concept shot twice, once normally and once with controlled low-light reflection, then composited to show reflective performance in the same production framework.",
   },
   {
+    slug: "digital-overlay",
     category: "Retouching",
     title: "Digital Overlay",
     image:
       "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1407977689844-E5D7DF1CSNWJXFTOD298/step3.jpg?format=1000w",
+    images: [
+      "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1407977690035-38QNXMY1OTC84F3EML0W/step1.jpg?format=1600w",
+      "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1407977689850-J233BD3IMF5OPMKMLTS8/step2.jpg?format=1600w",
+      "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1407977689844-E5D7DF1CSNWJXFTOD298/step3.jpg?format=1600w",
+    ],
     summary:
       "A practical Photoshop problem-solving example: remove a polka-dot print, rebuild the garment tone, and overlay a leopard pattern while preserving the structure of the suit.",
   },
   {
+    slug: "luma-color-changes",
     category: "Content Scale",
     title: "Luma Color Changes",
     video: "https://player.vimeo.com/video/101630008",
@@ -49,16 +72,26 @@ const projectGroups = [
       "A rapid content-scaling project that created hundreds of colorway variations from original fashion files to support a Magento color-search demo in under two weeks.",
   },
   {
+    slug: "tumi-motion-studies",
     category: "Motion Concepts",
     title: "TUMI Motion Studies",
     summary:
       "Parallax, stop-motion, and reflective-product concepts using static product assets, retouching consistency, and lightweight animation to extend e-commerce storytelling.",
   },
   {
+    slug: "best-in-coat",
     category: "Brand Build",
     title: "Best In Coat",
     image:
       "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1570375713078-GJ3IGK6CQURB7XS03T2W/IMG_4008.JPG?format=1000w",
+    images: [
+      "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1570375713078-GJ3IGK6CQURB7XS03T2W/IMG_4008.JPG?format=1600w",
+      "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1570375723065-M754PESUS9DB2PIGUE4B/IMG_7671.JPG?format=1600w",
+      "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1570375730842-X1DEKBKITRQK11RL8MB7/IMG_8103.JPG?format=1600w",
+      "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1570375701149-RXC9VA6509YY8N5IIDS4/IMG_1606.jpg?format=1600w",
+      "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1570375732774-F91B5KG465145NHHS44R/IMG_8033.JPG?format=1600w",
+      "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1570375714728-V689KAYD6ZAV93MSZ5CK/IMG_3974.JPG?format=1600w",
+    ],
     summary:
       "A small-business concept built from an empty space into a full brand, retail environment, and online presence.",
   },
@@ -71,22 +104,24 @@ const projectCards = projectGroups
           ${
             project.video
               ? `<iframe class="project-video" src="${project.video}" title="${project.title}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>`
-              : ""
+              : `<a class="project-card-link" href="#project/${project.slug}" aria-label="Open ${project.title}">
+                  ${project.image ? `<img src="${project.image}" alt="" loading="lazy">` : ""}
+                </a>`
           }
-          ${project.image ? `<img src="${project.image}" alt="" loading="lazy">` : ""}
           <div>
             <p class="date">${project.category}</p>
             <h3>${project.title}</h3>
             <p>${project.summary}</p>
           </div>
+          <a class="project-open" href="#project/${project.slug}">Open Project</a>
         </article>
       `,
   )
   .join("");
 
-document.querySelector("#app").innerHTML = `
+const renderHeader = () => `
   <header class="site-header">
-    <a class="brand" href="/" aria-label="Brian Flieck home">Brian Flieck</a>
+    <a class="brand" href="#/" aria-label="Brian Flieck home">Brian Flieck</a>
     <nav aria-label="Primary navigation">
       <a href="#profile">Profile</a>
       <a href="#origin">Origin</a>
@@ -97,7 +132,10 @@ document.querySelector("#app").innerHTML = `
       <a href="${resumeUrl}">PDF</a>
     </nav>
   </header>
+`;
 
+const renderHome = () => `
+  ${renderHeader()}
   <main>
     <section class="resume-sheet" aria-labelledby="resume-title">
       <div class="hero-lockup">
@@ -359,3 +397,51 @@ document.querySelector("#app").innerHTML = `
     </section>
   </main>
 `;
+
+const renderProject = (project) => `
+  ${renderHeader()}
+  <main>
+    <section class="project-detail">
+      <a class="back-link" href="#work">Back to Legacy Portfolio</a>
+      <div class="detail-heading">
+        <p class="date">${project.category}</p>
+        <h1>${project.title}</h1>
+        <p>${project.summary}</p>
+      </div>
+      ${
+        project.video
+          ? `<iframe class="detail-video" src="${project.video}" title="${project.title}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`
+          : ""
+      }
+      ${
+        project.images?.length
+          ? `<div class="detail-gallery">
+              ${project.images
+                .map((image) => `<img src="${image}" alt="" loading="lazy">`)
+                .join("")}
+            </div>`
+          : project.video
+            ? ""
+            : `<div class="detail-empty">
+              <p>This project was migrated from the previous portfolio. More project media can be added here as assets are recovered.</p>
+            </div>`
+      }
+    </section>
+  </main>
+`;
+
+const render = () => {
+  const projectSlug = window.location.hash.match(/^#project\/(.+)/)?.[1];
+  const project = projectGroups.find((item) => item.slug === projectSlug);
+
+  document.querySelector("#app").innerHTML = project ? renderProject(project) : renderHome();
+
+  if (project) {
+    window.scrollTo(0, 0);
+  } else if (window.location.hash && window.location.hash !== "#/") {
+    document.querySelector(window.location.hash)?.scrollIntoView();
+  }
+};
+
+window.addEventListener("hashchange", render);
+render();
