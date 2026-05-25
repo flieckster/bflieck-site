@@ -75,6 +75,18 @@ const projectGroups = [
     slug: "tumi-motion-studies",
     category: "Motion Concepts",
     title: "TUMI Motion Studies",
+    video: "https://www.youtube.com/embed/KlYs3TRB9tM",
+    videos: [
+      {
+        title: "TUMI Parallax Concept",
+        src: "https://www.youtube.com/embed/KlYs3TRB9tM",
+      },
+      {
+        title: "TUMI Stop Motion Animation",
+        src: "https://player.vimeo.com/video/139271909",
+        className: "portrait-video",
+      },
+    ],
     summary:
       "Parallax, stop-motion, and reflective-product concepts using static product assets, retouching consistency, and lightweight animation to extend e-commerce storytelling.",
   },
@@ -358,7 +370,7 @@ const renderHome = () => `
 
     <section class="portfolio-section" id="work">
       <div class="section-title">
-        <h2>Legacy Portfolio</h2>
+        <h2>Portfolio</h2>
         <span aria-hidden="true"></span>
       </div>
       <p class="section-intro">
@@ -402,15 +414,28 @@ const renderProject = (project) => `
   ${renderHeader()}
   <main>
     <section class="project-detail">
-      <a class="back-link" href="#work">Back to Legacy Portfolio</a>
+      <a class="back-link" href="#work">Back to Portfolio</a>
       <div class="detail-heading">
         <p class="date">${project.category}</p>
         <h1>${project.title}</h1>
         <p>${project.summary}</p>
       </div>
       ${
-        project.video
-          ? `<iframe class="detail-video" src="${project.video}" title="${project.title}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`
+        project.videos?.length
+          ? `<div class="detail-videos">
+              ${project.videos
+                .map(
+                  (video) => `
+                    <figure class="detail-video-frame ${video.className ?? ""}">
+                      <iframe src="${video.src}" title="${video.title}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                      <figcaption>${video.title}</figcaption>
+                    </figure>
+                  `,
+                )
+                .join("")}
+            </div>`
+          : project.video
+            ? `<iframe class="detail-video" src="${project.video}" title="${project.title}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`
           : ""
       }
       ${

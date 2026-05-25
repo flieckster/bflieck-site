@@ -426,6 +426,37 @@ li {
   background: var(--ink);
 }
 
+.detail-videos {
+  display: grid;
+  gap: 22px;
+  margin-bottom: 18px;
+}
+
+.detail-video-frame {
+  margin: 0;
+}
+
+.detail-video-frame iframe {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border: 0;
+  background: var(--ink);
+}
+
+.detail-video-frame.portrait-video iframe {
+  aspect-ratio: 720 / 1046;
+  max-height: 82vh;
+}
+
+.detail-video-frame figcaption {
+  margin-top: 10px;
+  color: var(--muted);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
 .detail-gallery {
   display: grid;
   gap: 18px;
