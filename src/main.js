@@ -281,20 +281,38 @@ document.querySelector("#app").innerHTML = `
       <div class="origin-grid">
         <div>
           <p>
-            The older portfolio tells the story clearly: art class was the place where the work clicked first, and
-            graphic design became the practical bridge between visual craft and computers.
+            I originally wanted to be an artist and graphic designer, so I chose art school. After graduating, I landed
+            as an intern at Global Sports, a startup e-commerce company, where I helped dress mannequins and path out
+            product images from the photo studio. That internship became a production artist role, where I learned how
+            to edit product imagery and got my first real taste of creative workflow.
           </p>
           <p>
-            That foundation grew into commercial studio leadership, image production, retouching systems, workflow
-            automation, and the production tools that help creative teams move faster without losing quality.
+            Product arrived, was barcoded, steamed, styled, photographed, added to the server, and then picked up by the
+            production team. We transformed those files into final flat images ready for online use. The goal was always
+            better and faster. Over time, we used automation to move files, resize images, and speed up repetitive work
+            with Photoshop actions. As my role grew into management, I kept pushing the process forward with better
+            tracking, better offshore handoffs, and better methods for retouching teams to move quickly and accurately.
+            During my time there, the team maintained a 99.9% on-time SLA rate.
+          </p>
+          <p>
+            After more than 20 years in e-commerce production, I moved into a new challenge: financial marketing and
+            creative project management. At Vanguard, we helped build a creative agency from the ground up. We started
+            small, grew more effective, and soon adopted Workfront. I dove deeply into the platform, earned admin access
+            in less than a year, and became one of the team's Workfront subject matter experts.
+          </p>
+          <p>
+            A few years later, I moved into the role that became my new passion: creative technologist. The work became
+            finding inventive ways to solve creative and operational problems with technology. Then AI changed the scale
+            of what was possible. It turned more of my ideas into working tools, especially where creative thinking and
+            code meet.
           </p>
         </div>
         <aside>
-          <p class="date">Pulled from bflieck.com</p>
-          <h3>Commercial studio craft plus operational systems.</h3>
+          <p class="date">Through Line</p>
+          <h3>Better workflows, happier clients, faster creative production.</h3>
           <p>
-            The legacy work spans e-commerce photography, animation concepts, colorway scaling, digital compositing,
-            production dashboards, product lookup utilities, and brand-building projects.
+            The constant thread has been the challenge I enjoy most: inventing new methods, tools, and systems that help
+            creative teams produce better work with more speed, accuracy, and confidence.
           </p>
         </aside>
       </div>
