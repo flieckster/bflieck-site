@@ -454,7 +454,7 @@ const renderHome = () => `
       </p>
       <div class="systems-grid" aria-label="Creative operations capabilities">
         <span>Creative Intake</span>
-        <span>Resource Matching</span>
+        <span>AI Resource Matching</span>
         <span>Asset Automation</span>
         <span>AI Content Generation</span>
         <span>SLA Dashboarding</span>
