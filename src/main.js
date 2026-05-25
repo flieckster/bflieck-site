@@ -203,9 +203,9 @@ const renderHome = () => `
             <p>Led image production workflow improvements that increased tracking, automation, offshore handoffs, and delivery accuracy.</p>
           </article>
           <article>
-            <p class="achievement-metric">Workhorse</p>
+            <p class="achievement-metric">Work Horse</p>
             <h3>Led software onboarding</h3>
-            <p>Led onboarding of Workhorse software, including configuration, testing, rollout planning, and production adoption.</p>
+            <p>Led onboarding of Work Horse software, including configuration, testing, rollout planning, and production adoption.</p>
           </article>
           <article>
             <p class="achievement-metric">57+</p>
