@@ -202,6 +202,21 @@ const renderHome = () => `
             <h3>Maintained production SLA</h3>
             <p>Led image production workflow improvements that increased tracking, automation, offshore handoffs, and delivery accuracy.</p>
           </article>
+          <article>
+            <p class="achievement-metric">Workhorse</p>
+            <h3>Led software onboarding</h3>
+            <p>Led onboarding of Workhorse software, including configuration, testing, rollout planning, and production adoption.</p>
+          </article>
+          <article>
+            <p class="achievement-metric">57+</p>
+            <h3>Onboarded retail clients</h3>
+            <p>Onboarded more than 57 large retail clients into e-commerce image production workflows, style guides, and delivery standards.</p>
+          </article>
+          <article>
+            <p class="achievement-metric">$23M</p>
+            <h3>Helped scale studio business</h3>
+            <p>Contributed to building a creative production operation that grew into a $23 million annual business.</p>
+          </article>
         </div>
       </section>
 
