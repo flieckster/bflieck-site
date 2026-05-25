@@ -138,6 +138,7 @@ const renderHeader = () => `
       <a href="#profile">Profile</a>
       <a href="#origin">Origin</a>
       <a href="#work">Work</a>
+      <a href="#accomplishments">Accomplishments</a>
       <a href="#systems">Systems</a>
       <a href="#experience">Experience</a>
       <a href="#skills">Skills</a>
@@ -173,6 +174,35 @@ const renderHome = () => `
           efficiency, and delivering measurable business impact in regulated environments. Adept at translating operational
           needs into product roadmaps, coaching teams, and optimizing performance.
         </p>
+      </section>
+
+      <section class="accomplishments-section" id="accomplishments">
+        <div class="section-title">
+          <h2>Accomplishments</h2>
+          <span aria-hidden="true"></span>
+        </div>
+        <div class="accomplishment-grid">
+          <article>
+            <p class="achievement-metric">23%</p>
+            <h3>Reduced time-to-market</h3>
+            <p>Optimized Adobe Workfront workflows through process redesign, automation, and platform improvements.</p>
+          </article>
+          <article>
+            <p class="achievement-metric">1 day to 5 min</p>
+            <h3>Built RED Ink</h3>
+            <p>Developed an AI content-generation app trained on approved assets, brand rules, style guides, and compliance frameworks.</p>
+          </article>
+          <article>
+            <p class="achievement-metric">Top 3</p>
+            <h3>Automated resource matching</h3>
+            <p>Created a Workfront Fusion tool that evaluates roles, capacity, and project needs to recommend best-fit staffing options.</p>
+          </article>
+          <article>
+            <p class="achievement-metric">99.9%</p>
+            <h3>Maintained production SLA</h3>
+            <p>Led image production workflow improvements that increased tracking, automation, offshore handoffs, and delivery accuracy.</p>
+          </article>
+        </div>
       </section>
 
       <div class="resume-grid">
