@@ -259,12 +259,10 @@ const renderHome = () => `
             </div>
             <div class="stack">
               <article>
-                <p class="date">2020 - 2021</p>
                 <h3>University of Penn</h3>
                 <p>Full Stack Web Development Boot Camp</p>
               </article>
               <article>
-                <p class="date">1999 - 2001</p>
                 <h3>Antonelli Institute</h3>
                 <p>Associates Degree in Specialized Technology</p>
                 <p>Major: Graphic Design / Commercial Art</p>
