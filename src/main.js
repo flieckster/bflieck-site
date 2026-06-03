@@ -3,6 +3,8 @@ import "./styles.css";
 
 const resumeTextUrl = new URL("../documents/Brian Flieck Resume.txt", import.meta.url).href;
 const localResumeKey = "bflieck-resume-draft";
+const editorPassword = "To@sty";
+const editorUnlockKey = "bflieck-resume-editor-unlocked";
 
 let activeResume = structuredClone(resumeData);
 
@@ -65,6 +67,20 @@ const loadDraft = () => {
 
 const saveDraft = () => {
   window.localStorage.setItem(localResumeKey, JSON.stringify(activeResume, null, 2));
+};
+
+const unlockResumeEditor = () => {
+  if (window.sessionStorage.getItem(editorUnlockKey) === "true") return true;
+
+  const attempt = window.prompt("Enter the resume editor password.");
+  if (attempt === editorPassword) {
+    window.sessionStorage.setItem(editorUnlockKey, "true");
+    return true;
+  }
+
+  window.alert("Incorrect password.");
+  window.location.hash = "#/";
+  return false;
 };
 
 const projectGroups = [
@@ -183,7 +199,6 @@ const renderHeader = () => `
       <a href="#experience">Experience</a>
       <a href="#work">Work</a>
       <a href="#contact">Contact</a>
-      <a href="#resume-editor">Edit</a>
       <a class="nav-button" href="mailto:brianflieck@gmail.com">Get in touch</a>
     </nav>
   </header>
@@ -843,6 +858,15 @@ const bindEditor = () => {
   document.querySelector('[data-action="download-json"]')?.addEventListener("click", downloadResumeJson);
 };
 
+const bindHiddenEditorTrigger = () => {
+  document.querySelector(".brand")?.addEventListener("click", (event) => {
+    if (!event.shiftKey) return;
+
+    event.preventDefault();
+    window.location.hash = "#resume-editor";
+  });
+};
+
 const render = () => {
   loadDraft();
 
@@ -851,8 +875,11 @@ const render = () => {
   const route = window.location.hash.replace("#", "");
 
   if (route === "resume-editor") {
+    if (!unlockResumeEditor()) return;
+
     document.querySelector("#app").innerHTML = renderResumeEditor();
     bindEditor();
+    bindHiddenEditorTrigger();
     window.scrollTo(0, 0);
     return;
   }
@@ -866,6 +893,7 @@ const render = () => {
   }
 
   document.querySelector("#app").innerHTML = project ? renderProject(project) : renderHome();
+  bindHiddenEditorTrigger();
 
   if (project) {
     window.scrollTo(0, 0);
