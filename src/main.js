@@ -1,7 +1,7 @@
 import resumeData from "./resumeData.json";
 import "./styles.css";
 
-const resumeUrl = new URL("../documents/Brian Flieck Creative Technology.pdf", import.meta.url).href;
+const resumeTextUrl = new URL("../documents/Brian Flieck Resume.txt", import.meta.url).href;
 const localResumeKey = "bflieck-resume-draft";
 
 let activeResume = structuredClone(resumeData);
@@ -16,6 +16,41 @@ const escapeHtml = (value = "") =>
 
 const toLines = (items = []) => items.join("\n");
 const fromLines = (value = "") => value.split("\n").map((item) => item.trim()).filter(Boolean);
+const compact = (items = []) => items.filter(Boolean).join("\n");
+
+const formatResumeText = (resume) =>
+  `${resume.name.first} ${resume.name.last}
+${resume.title}
+
+${resume.contact.join(" | ")}
+
+SUMMARY
+${resume.headline}
+
+PROFILE
+${resume.profileTitle}
+${resume.profile}
+
+IMPACT
+${resume.accomplishments.map((item) => `- ${item.metric}: ${item.title}. ${item.description}`).join("\n")}
+
+EXPERIENCE
+${resume.experience
+  .map(
+    (job) => `${job.role} | ${job.company} | ${job.dates}
+${job.bullets.map((bullet) => `- ${bullet}`).join("\n")}`,
+  )
+  .join("\n\n")}
+
+EARLY CAREER
+${resume.earlyCareer.map((item) => `- ${item.company}: ${item.details}`).join("\n")}
+
+SKILLS
+${resume.skills.map((group) => `${group.group}: ${group.items.join(", ")}`).join("\n")}
+
+EDUCATION
+${resume.education.map((school) => compact([school.school, ...school.details])).join("\n\n")}
+`;
 
 const loadDraft = () => {
   const draft = window.localStorage.getItem(localResumeKey);
@@ -280,6 +315,101 @@ const renderResumeSections = (resume) => `
   </section>
 `;
 
+const renderResumeDocument = (resume) => `
+  <section class="resume-document" aria-labelledby="resume-document-title">
+    <header class="resume-document-hero">
+      <div>
+        <p class="status-pill">Creative Operations & Technology Leader</p>
+        <h1 id="resume-document-title">${escapeHtml(resume.name.first)} ${escapeHtml(resume.name.last)}</h1>
+        <p>${escapeHtml(resume.headline)}</p>
+      </div>
+      <div class="resume-contact-card">
+        ${resume.contact.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
+      </div>
+    </header>
+
+    <section class="resume-document-section">
+      <p class="section-kicker">Profile</p>
+      <h2>${escapeHtml(resume.profileTitle)}</h2>
+      <p class="section-lede">${escapeHtml(resume.profile)}</p>
+    </section>
+
+    <section class="resume-document-section">
+      <p class="section-kicker">Impact</p>
+      <div class="resume-impact-grid">
+        ${resume.accomplishments
+          .slice(0, 6)
+          .map(
+            (item) => `
+              <article>
+                <strong>${escapeHtml(item.metric)}</strong>
+                <h3>${escapeHtml(item.title)}</h3>
+                <p>${escapeHtml(item.description)}</p>
+              </article>
+            `,
+          )
+          .join("")}
+      </div>
+    </section>
+
+    <section class="resume-document-section resume-document-grid">
+      <aside>
+        <p class="section-kicker">Skills</p>
+        ${resume.skills
+          .map(
+            (group) => `
+              <div class="resume-skill-block">
+                <h3>${escapeHtml(group.group)}</h3>
+                <div class="tag-cloud">
+                  ${group.items.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
+                </div>
+              </div>
+            `,
+          )
+          .join("")}
+
+        <p class="section-kicker">Education</p>
+        <div class="resume-education">
+          ${resume.education
+            .map(
+              (school) => `
+                <article>
+                  <h3>${escapeHtml(school.school)}</h3>
+                  ${school.details.map((detail) => `<p>${escapeHtml(detail)}</p>`).join("")}
+                </article>
+              `,
+            )
+            .join("")}
+        </div>
+      </aside>
+
+      <div>
+        <p class="section-kicker">Experience</p>
+        <div class="resume-timeline">
+          ${resume.experience
+            .map(
+              (job) => `
+                <article>
+                  <div>
+                    <h3>${escapeHtml(job.role)} <span>· ${escapeHtml(job.company)}</span></h3>
+                    <p>${escapeHtml(job.dates)}</p>
+                  </div>
+                  <ul>${job.bullets.map((bullet) => `<li>${escapeHtml(bullet)}</li>`).join("")}</ul>
+                </article>
+              `,
+            )
+            .join("")}
+        </div>
+        <div class="resume-early-career">
+          ${resume.earlyCareer
+            .map((item) => `<p><strong>${escapeHtml(item.company)}</strong> ${escapeHtml(item.details)}</p>`)
+            .join("")}
+        </div>
+      </div>
+    </section>
+  </section>
+`;
+
 const homeMetrics = [
   ["Based", "Coatesville, PA"],
   ["Focus", "Creative Ops + Tech"],
@@ -434,7 +564,8 @@ const renderHome = () => `
         <p class="section-lede">I partner with organizations that want better visibility, stronger processes, and more efficient creative operations without sacrificing creative quality.</p>
         <div class="hero-actions">
           <a class="button" href="mailto:brianflieck@gmail.com">Email Brian</a>
-          <a class="button ghost" href="${resumeUrl}">Download resume (PDF)</a>
+          <a class="button ghost" href="#resume-print">Download resume (PDF)</a>
+          <a class="button ghost" href="${resumeTextUrl}" download>Download resume (TXT)</a>
         </div>
       </div>
       <dl class="contact-card">
@@ -521,8 +652,9 @@ const renderPrintResume = () => `
     <div class="print-actions">
       <a class="button ghost" href="#resume-editor">Back to Editor</a>
       <button class="button" data-action="print-resume" type="button">Create PDF</button>
+      <button class="button ghost" data-action="download-txt" type="button">Download TXT</button>
     </div>
-    ${renderResumeSections(activeResume)}
+    ${renderResumeDocument(activeResume)}
   </main>
 `;
 
@@ -538,6 +670,7 @@ const renderResumeEditor = () => `
       <div class="editor-actions">
         <button class="button" data-action="save-draft" type="button">Save Draft</button>
         <a class="button ghost" href="#resume-print">PDF View</a>
+        <button class="button ghost" data-action="download-txt" type="button">Download TXT</button>
         <button class="button ghost" data-action="download-json" type="button">Download JSON</button>
         <button class="button ghost" data-action="publish" type="button">Publish</button>
       </div>
@@ -608,9 +741,9 @@ const renderResumeEditor = () => `
 
       <aside class="editor-preview" aria-label="Resume preview">
         <div class="editor-preview-heading">
-          <p class="name-kicker">Site Preview</p>
+          <p class="section-kicker">Resume Preview</p>
         </div>
-        ${renderResumeSections(activeResume)}
+        ${renderResumeDocument(activeResume)}
       </aside>
     </section>
 
@@ -674,12 +807,29 @@ const downloadResumeJson = () => {
   URL.revokeObjectURL(link.href);
 };
 
+const downloadResumeText = () => {
+  syncResumeFromForm();
+  saveDraft();
+
+  const blob = new Blob([formatResumeText(activeResume)], { type: "text/plain" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "Brian Flieck Resume.txt";
+  link.click();
+  URL.revokeObjectURL(link.href);
+};
+
 const bindEditor = () => {
   const form = document.querySelector("#resume-form");
   form?.addEventListener("input", () => {
     syncResumeFromForm();
     saveDraft();
-    document.querySelector(".editor-preview").innerHTML = renderResumeSections(activeResume);
+    document.querySelector(".editor-preview").innerHTML = `
+      <div class="editor-preview-heading">
+        <p class="section-kicker">Resume Preview</p>
+      </div>
+      ${renderResumeDocument(activeResume)}
+    `;
   });
 
   document.querySelector('[data-action="save-draft"]')?.addEventListener("click", () => {
@@ -689,6 +839,7 @@ const bindEditor = () => {
   });
 
   document.querySelector('[data-action="publish"]')?.addEventListener("click", publishResume);
+  document.querySelector('[data-action="download-txt"]')?.addEventListener("click", downloadResumeText);
   document.querySelector('[data-action="download-json"]')?.addEventListener("click", downloadResumeJson);
 };
 
@@ -709,6 +860,7 @@ const render = () => {
   if (route === "resume-print") {
     document.querySelector("#app").innerHTML = renderPrintResume();
     document.querySelector('[data-action="print-resume"]')?.addEventListener("click", () => window.print());
+    document.querySelector('[data-action="download-txt"]')?.addEventListener("click", downloadResumeText);
     window.scrollTo(0, 0);
     return;
   }

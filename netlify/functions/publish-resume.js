@@ -7,6 +7,41 @@ const jsonResponse = (statusCode, body) => ({
 });
 
 const requiredString = (value) => typeof value === "string" && value.trim().length > 0;
+const compact = (items = []) => items.filter(Boolean).join("\n");
+
+const formatResumeText = (resume) =>
+  `${resume.name.first} ${resume.name.last}
+${resume.title}
+
+${resume.contact.join(" | ")}
+
+SUMMARY
+${resume.headline}
+
+PROFILE
+${resume.profileTitle}
+${resume.profile}
+
+IMPACT
+${resume.accomplishments.map((item) => `- ${item.metric}: ${item.title}. ${item.description}`).join("\n")}
+
+EXPERIENCE
+${resume.experience
+  .map(
+    (job) => `${job.role} | ${job.company} | ${job.dates}
+${job.bullets.map((bullet) => `- ${bullet}`).join("\n")}`,
+  )
+  .join("\n\n")}
+
+EARLY CAREER
+${resume.earlyCareer.map((item) => `- ${item.company}: ${item.details}`).join("\n")}
+
+SKILLS
+${resume.skills.map((group) => `${group.group}: ${group.items.join(", ")}`).join("\n")}
+
+EDUCATION
+${resume.education.map((school) => compact([school.school, ...school.details])).join("\n\n")}
+`;
 
 const validateResume = (resume) => {
   if (!resume || typeof resume !== "object") return "Resume payload is missing.";
@@ -49,46 +84,65 @@ export const handler = async (event) => {
     return jsonResponse(400, { error: validationError });
   }
 
-  const path = "src/resumeData.json";
-  const apiBase = `https://api.github.com/repos/${repo}/contents/${path}`;
+  const apiBase = `https://api.github.com/repos/${repo}/contents`;
   const authHeaders = {
     Authorization: `Bearer ${token}`,
     "User-Agent": "bflieck-site-resume-publisher",
     Accept: "application/vnd.github+json",
   };
 
-  const currentResponse = await fetch(`${apiBase}?ref=${encodeURIComponent(branch)}`, {
-    headers: authHeaders,
-  });
+  const updateFile = async ({ path, content, message }) => {
+    const fileBase = `${apiBase}/${path}`;
+    const currentResponse = await fetch(`${fileBase}?ref=${encodeURIComponent(branch)}`, {
+      headers: authHeaders,
+    });
 
-  if (!currentResponse.ok) {
-    return jsonResponse(502, { error: "Could not read the current resume file from GitHub." });
-  }
+    if (!currentResponse.ok && currentResponse.status !== 404) {
+      throw new Error(`Could not read ${path} from GitHub.`);
+    }
 
-  const current = await currentResponse.json();
-  const content = Buffer.from(`${JSON.stringify(resume, null, 2)}\n`).toString("base64");
+    const current = currentResponse.ok ? await currentResponse.json() : null;
+    const updateResponse = await fetch(fileBase, {
+      method: "PUT",
+      headers: {
+        ...authHeaders,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        message,
+        content: Buffer.from(content).toString("base64"),
+        sha: current?.sha,
+        branch,
+      }),
+    });
 
-  const updateResponse = await fetch(apiBase, {
-    method: "PUT",
-    headers: {
-      ...authHeaders,
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
+    const update = await updateResponse.json();
+    if (!updateResponse.ok) {
+      throw new Error(update.message || `GitHub rejected ${path}.`);
+    }
+
+    return update.commit?.sha;
+  };
+
+  let dataCommit;
+  let textCommit;
+  try {
+    dataCommit = await updateFile({
+      path: "src/resumeData.json",
+      content: `${JSON.stringify(resume, null, 2)}\n`,
       message: "Update resume content",
-      content,
-      sha: current.sha,
-      branch,
-    }),
-  });
-
-  const update = await updateResponse.json();
-  if (!updateResponse.ok) {
-    return jsonResponse(502, { error: update.message || "GitHub rejected the resume update." });
+    });
+    textCommit = await updateFile({
+      path: "documents/Brian Flieck Resume.txt",
+      content: formatResumeText(resume),
+      message: "Update text resume download",
+    });
+  } catch (error) {
+    return jsonResponse(502, { error: error.message });
   }
 
   return jsonResponse(200, {
-    commit: update.commit?.sha,
-    message: "Resume data published.",
+    commit: textCommit || dataCommit,
+    message: "Resume data and text download published.",
   });
 };
