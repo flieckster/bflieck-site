@@ -1,12 +1,42 @@
+import resumeData from "./resumeData.json";
 import "./styles.css";
 
 const resumeUrl = new URL("../documents/Brian Flieck Creative Technology.pdf", import.meta.url).href;
+const localResumeKey = "bflieck-resume-draft";
+
+let activeResume = structuredClone(resumeData);
+
+const escapeHtml = (value = "") =>
+  String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+
+const toLines = (items = []) => items.join("\n");
+const fromLines = (value = "") => value.split("\n").map((item) => item.trim()).filter(Boolean);
+
+const loadDraft = () => {
+  const draft = window.localStorage.getItem(localResumeKey);
+  if (!draft) return;
+
+  try {
+    activeResume = JSON.parse(draft);
+  } catch {
+    window.localStorage.removeItem(localResumeKey);
+  }
+};
+
+const saveDraft = () => {
+  window.localStorage.setItem(localResumeKey, JSON.stringify(activeResume, null, 2));
+};
 
 const projectGroups = [
   {
     slug: "sla-workfront-dashboard",
     category: "Workfront Systems",
-    title: "SLA Workfront-Powered Dashboard",
+    title: "Enterprise SLA Visibility & Reporting Framework",
     image:
       "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/545c9f2e-f99d-4c14-afc8-46ce90d91437/REDslap1.jpg?format=1000w",
     images: [
@@ -20,7 +50,7 @@ const projectGroups = [
   {
     slug: "dynamic-workflow-chart",
     category: "Workflow Automation",
-    title: "Dynamic Workflow Chart",
+    title: "Automated Resource Visibility & Workflow Monitoring",
     image:
       "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1569877842715-BHYJGAJ5H0TI2PWRTKST/01_sm.gif?format=1000w",
     images: [
@@ -32,14 +62,14 @@ const projectGroups = [
   {
     slug: "dynamic-image-product-lookup",
     category: "Production Utility",
-    title: "Dynamic Image Product Lookup App",
+    title: "Production Asset Intelligence System",
     summary:
       "An AppleScript droplet that let production staff drop in a file and retrieve product descriptions and color codes, reducing manual Workhorse lookups during image editing.",
   },
   {
     slug: "under-armour-lights-out",
     category: "E-commerce Video",
-    title: "Under Armour Lights Out Concept",
+    title: "Cross-Functional Creative Production Initiative",
     image:
       "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1578095189635-VS10MEABV9OP8ELYU4Y9/UAbefore.gif?format=1000w",
     images: [
@@ -52,7 +82,7 @@ const projectGroups = [
   {
     slug: "digital-overlay",
     category: "Retouching",
-    title: "Digital Overlay",
+    title: "Editorial Review & Quality Assurance Workflow",
     image:
       "https://images.squarespace-cdn.com/content/v1/51755529e4b0152c1903f6df/1407977689844-E5D7DF1CSNWJXFTOD298/step3.jpg?format=1000w",
     images: [
@@ -66,7 +96,7 @@ const projectGroups = [
   {
     slug: "luma-color-changes",
     category: "Content Scale",
-    title: "Luma Color Changes",
+    title: "AI-Assisted Creative Production Workflow",
     video: "https://player.vimeo.com/video/101630008",
     summary:
       "A rapid content-scaling project that created hundreds of colorway variations from original fashion files to support a Magento color-search demo in under two weeks.",
@@ -109,379 +139,339 @@ const projectGroups = [
   },
 ];
 
-const projectCards = projectGroups
-  .map(
-    (project) => `
-        <article class="project-card">
-          ${
-            project.video
-              ? `<iframe class="project-video" src="${project.video}" title="${project.title}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>`
-              : `<a class="project-card-link" href="#project/${project.slug}" aria-label="Open ${project.title}">
-                  ${project.image ? `<img src="${project.image}" alt="" loading="lazy">` : ""}
-                </a>`
-          }
-          <div>
-            <p class="date">${project.category}</p>
-            <h3>${project.title}</h3>
-            <p>${project.summary}</p>
-          </div>
-          <a class="project-open" href="#project/${project.slug}">Open Project</a>
-        </article>
-      `,
-  )
-  .join("");
-
 const renderHeader = () => `
   <header class="site-header">
-    <a class="brand" href="#/" aria-label="Brian Flieck home">Brian Flieck</a>
+    <a class="brand" href="#/" aria-label="Brian Flieck home">Brian Flieck <span>Creative Operations</span></a>
     <nav aria-label="Primary navigation">
-      <a href="#profile">Profile</a>
-      <a href="#origin">Origin</a>
-      <a href="#work">Work</a>
-      <a href="#accomplishments">Accomplishments</a>
-      <a href="#systems">Systems</a>
+      <a href="#about">About</a>
+      <a href="#impact">Impact</a>
       <a href="#experience">Experience</a>
-      <a href="#skills">Skills</a>
-      <a href="${resumeUrl}">PDF</a>
+      <a href="#work">Work</a>
+      <a href="#contact">Contact</a>
+      <a href="#resume-editor">Edit</a>
+      <a class="nav-button" href="mailto:brianflieck@gmail.com">Get in touch</a>
     </nav>
   </header>
 `;
 
-const renderHome = () => `
-  ${renderHeader()}
-  <main>
-    <section class="resume-sheet dark-panel" aria-labelledby="resume-title">
-      <div class="hero-lockup">
-        <div class="hero-copy">
-          <p class="name-kicker">Creative Technology Operations</p>
-          <h1 id="resume-title"><span>Brian</span><span>Flieck</span></h1>
-          <p class="hero-statement">
-            Creative operations leader and technologist building AI-enabled systems that help teams move faster,
-            produce better work, and reduce operational drag.
-          </p>
-        </div>
-        <div class="hero-mark" aria-hidden="true">
-          <span></span>
-          <strong>ops</strong>
-        </div>
+const renderContactItem = (item) => {
+  if (item.includes("@")) return `<a href="mailto:${escapeHtml(item)}">${escapeHtml(item)}</a>`;
+  if (item.startsWith("linkedin.com")) return `<a href="https://${escapeHtml(item)}/">${escapeHtml(item)}</a>`;
+  if (item.startsWith("www.")) return `<span>${escapeHtml(item)}</span>`;
+  return `<span>${escapeHtml(item)}</span>`;
+};
+
+const renderResumeSections = (resume) => `
+  <section class="resume-sheet dark-panel" aria-labelledby="resume-title">
+    <div class="hero-lockup">
+      <div class="hero-copy">
+        <p class="name-kicker">${escapeHtml(resume.title)}</p>
+        <h1 id="resume-title"><span>${escapeHtml(resume.name.first)}</span><span>${escapeHtml(resume.name.last)}</span></h1>
+        <p class="hero-statement">${escapeHtml(resume.headline)}</p>
       </div>
+      <div class="hero-mark" aria-hidden="true"><span></span><strong>ops</strong></div>
+    </div>
 
-      <div class="contact-strip" aria-label="Contact details">
-        <span>Coatesville, PA</span>
-        <span>www.bflieck.com</span>
-        <a href="mailto:brianflieck@gmail.com">brianflieck@gmail.com</a>
-        <a href="https://linkedin.com/in/brianflieck/">linkedin.com/in/brianflieck</a>
+    <div class="contact-strip" aria-label="Contact details">
+      ${resume.contact.map(renderContactItem).join("")}
+    </div>
+
+    <section class="profile-section intro-panel" id="profile">
+      <div class="section-title">
+        <p>Profile</p>
+        <h2>${escapeHtml(resume.profileTitle)}</h2>
       </div>
+      <p class="profile-copy">${escapeHtml(resume.profile)}</p>
+    </section>
 
-      <section class="profile-section intro-panel" id="profile">
-        <div class="section-title">
-          <p>Profile</p>
-          <h2>Creative operations leader with the hands-on builder mindset to turn complex workflow problems into usable systems.</h2>
-        </div>
-        <p class="profile-copy">
-          Innovative professional with 24 years of experience in creative technology, operations, and product management.
-          Proven record driving adoption of Adobe Creative Cloud and AI-driven workflows, integrating systems to improve
-          efficiency, and delivering measurable business impact in regulated environments. Adept at translating operational
-          needs into product roadmaps, coaching teams, and optimizing performance.
-        </p>
-      </section>
-
-      <section class="accomplishments-section" id="accomplishments">
-        <div class="section-title">
-          <h2>Accomplishments</h2>
-          <span aria-hidden="true"></span>
-        </div>
-        <div class="accomplishment-grid">
-          <article>
-            <p class="achievement-metric">23%</p>
-            <h3>Reduced time-to-market</h3>
-            <p>Optimized Adobe Workfront workflows through process redesign, automation, and platform improvements.</p>
-          </article>
-          <article>
-            <p class="achievement-metric">1 day to 5 min</p>
-            <h3>Built RED Ink</h3>
-            <p>Developed an AI content-generation app trained on approved assets, brand rules, style guides, and compliance frameworks.</p>
-          </article>
-          <article>
-            <p class="achievement-metric">Top 3</p>
-            <h3>Automated resource matching</h3>
-            <p>Created a Workfront Fusion tool that evaluates roles, capacity, and project needs to recommend best-fit staffing options.</p>
-          </article>
-          <article>
-            <p class="achievement-metric">99.9%</p>
-            <h3>Maintained production SLA</h3>
-            <p>Led image production workflow improvements that increased tracking, automation, offshore handoffs, and delivery accuracy.</p>
-          </article>
-          <article>
-            <p class="achievement-metric">Work Horse</p>
-            <h3>Led software onboarding</h3>
-            <p>Led onboarding of Work Horse software, including configuration, testing, rollout planning, and production adoption.</p>
-          </article>
-          <article>
-            <p class="achievement-metric">57+</p>
-            <h3>Onboarded retail clients</h3>
-            <p>Onboarded more than 57 large retail clients into e-commerce image production workflows, style guides, and delivery standards.</p>
-          </article>
-          <article>
-            <p class="achievement-metric">$23M</p>
-            <h3>Helped scale studio business</h3>
-            <p>Contributed to building a creative production operation that grew into a $23 million annual business.</p>
-          </article>
-          <article>
-            <p class="achievement-metric">11</p>
-            <h3>Led and developed staff</h3>
-            <p>Led a staff of 11 people, hired two managers, and mentored them into leadership roles under my direction.</p>
-          </article>
-          <article>
-            <p class="achievement-metric">3</p>
-            <h3>Built remote studios</h3>
-            <p>Helped design and staff three remote studios, onboarding teams to shared production procedures, tools, and processes.</p>
-          </article>
-          <article>
-            <p class="achievement-metric">KPIs</p>
-            <h3>Established growth metrics</h3>
-            <p>Established departmental year-over-year growth metrics aligned to company KPIs and production performance goals.</p>
-          </article>
-          <article>
-            <p class="achievement-metric">India</p>
-            <h3>Managed vendor partnerships</h3>
-            <p>Onboarded retouching partners in India, defining image volume estimates, pricing, billing, SLA terms, and operating processes.</p>
-          </article>
-        </div>
-      </section>
-
-      <div class="resume-grid">
-        <aside class="sidebar" aria-label="Education and skills">
-          <section>
-            <div class="section-title compact">
-              <h2>Education</h2>
-              <span aria-hidden="true"></span>
-            </div>
-            <div class="stack">
+    <section class="accomplishments-section" id="accomplishments">
+      <div class="section-title">
+        <h2>Accomplishments</h2>
+        <span aria-hidden="true"></span>
+      </div>
+      <div class="accomplishment-grid">
+        ${resume.accomplishments
+          .map(
+            (item) => `
               <article>
-                <h3>University of Penn</h3>
-                <p>Full Stack Web Development Boot Camp</p>
+                <p class="achievement-metric">${escapeHtml(item.metric)}</p>
+                <h3>${escapeHtml(item.title)}</h3>
+                <p>${escapeHtml(item.description)}</p>
               </article>
-              <article>
-                <h3>Antonelli Institute</h3>
-                <p>Associates Degree in Specialized Technology</p>
-                <p>Major: Graphic Design / Commercial Art</p>
-              </article>
-            </div>
-          </section>
+            `,
+          )
+          .join("")}
+      </div>
+    </section>
 
-          <section id="skills">
-            <div class="section-title compact">
-              <h2>Skills</h2>
-              <span aria-hidden="true"></span>
-            </div>
-            <div class="skill-group">
-              <h3>Technical</h3>
-              <ul>
-                <li>Workfront</li>
-                <li>Workfront Fusion</li>
-                <li>Adobe Creative Cloud</li>
-                <li>Firefly familiarity</li>
-                <li>Writer.com API & Agents</li>
-                <li>Figma</li>
-                <li>Wrike</li>
-                <li>Smartsheet</li>
-                <li>Bedrock</li>
-                <li>Microsoft Office</li>
-              </ul>
-            </div>
-            <div class="skill-group">
-              <h3>Operations</h3>
-              <ul>
-                <li>Project Management</li>
-                <li>Stakeholder Alignment</li>
-                <li>Agile Project Management</li>
-                <li>Client Relations</li>
-                <li>AI-driven Workflow Automation</li>
-                <li>Image Production & Quality Review</li>
-              </ul>
-            </div>
-            <div class="skill-group">
-              <h3>Leadership</h3>
-              <ul>
-                <li>Problem Solving</li>
-                <li>Troubleshooting</li>
-                <li>Critical Thinking</li>
-                <li>Process Improvement</li>
-                <li>Employee Growth</li>
-                <li>Training Initiatives</li>
-              </ul>
-            </div>
-          </section>
-        </aside>
-
-        <section class="experience" id="experience" aria-label="Work experience">
+    <div class="resume-grid">
+      <aside class="sidebar" aria-label="Education and skills">
+        <section>
           <div class="section-title compact">
-            <h2>Work Experience</h2>
+            <h2>Education</h2>
             <span aria-hidden="true"></span>
           </div>
-
-          <article class="job featured">
-            <div class="job-heading">
-              <div>
-                <h3>RED @ Vanguard</h3>
-                <p>Creative Technologist</p>
-              </div>
-              <p class="date">2024 - Present</p>
-            </div>
-            <ul>
-              <li>Optimized Adobe Workfront workflows, reducing time-to-market by 23% through process redesign, automation, and platform optimization.</li>
-              <li>Designed and implemented custom Workfront workflows to support agency users, improving operational efficiency, team productivity, and cross-functional visibility.</li>
-              <li>Partnered with IT and business stakeholders to gather requirements, define scalable solutions, and deliver cross-platform integrations.</li>
-              <li>Led cross-functional integration and ongoing optimization of Adobe Workfront across teams, improving adoption and process consistency.</li>
-              <li>Developed RED Ink, a custom AI content-generation application trained on approved assets, brand guidelines, style guides, and compliance frameworks. Enabled automated creation of articles, emails, and social content directly from creative briefs, reducing content production time from approximately one day to five minutes.</li>
-              <li>Created an automated Workfront Fusion-powered resourcing tool that evaluates project roles, identifies users with matching roles and available capacity, and recommends the top three candidates for each role. The tool posts an ordered recommendation list at the project update level and notifies the resource coordinator, streamlining staffing decisions.</li>
-            </ul>
-          </article>
-
-          <article class="job">
-            <div class="job-heading">
-              <div>
-                <h3>RED @ Vanguard</h3>
-                <p>Creative Agency Manager</p>
-              </div>
-              <p class="date">2021 - 2024</p>
-            </div>
-            <ul>
-              <li>Led and optimized creative processes for digital, video, UX, interactive, print, and presentation materials.</li>
-              <li>Managed end-to-end project lifecycles, ensuring on-time and high-quality creative deliverables across multiple channels.</li>
-              <li>Designed Workfront efficiencies that reduced bottlenecks and improved team productivity.</li>
-              <li>Oversaw creative asset development with internal stakeholders to align brand and business objectives.</li>
-              <li>Served as Workfront administrator and subject matter expert during the Wrike-to-Workfront transition.</li>
-            </ul>
-          </article>
-
-          <article class="job">
-            <div class="job-heading">
-              <div>
-                <h3>Industrial Color Studios</h3>
-                <p>Director of Retouching - Workflow Solutions</p>
-              </div>
-              <p class="date">2016 - 2021</p>
-            </div>
-            <ul>
-              <li>Managed final asset delivery for high-profile clients while meeting budget, deadline, and quality standards.</li>
-              <li>Led client onboarding, project scope, deliverables, and technical requirements to streamline workflows.</li>
-              <li>Developed automated file management with custom PERL scripts, reducing manual sorting errors and saving production time.</li>
-              <li>Launched Google Data Studio dashboards for real-time project tracking and optimized image processing workflows.</li>
-              <li>Managed a team of 14 employees and multiple freelancers with mentorship and performance-focused leadership.</li>
-            </ul>
-          </article>
-
-          <article class="job">
-            <div class="job-heading">
-              <div>
-                <h3>eBay Enterprise</h3>
-                <p>Post Production Manager</p>
-              </div>
-              <p class="date">2007 - 2016</p>
-            </div>
-            <ul>
-              <li>Led nine post-production specialists across image editing, asset management, and client delivery.</li>
-              <li>Consulted with business units to onboard new eCommerce clients and shape image workflows and style guides.</li>
-              <li>Improved retouching processes to reduce production time and increase output quality.</li>
-            </ul>
-          </article>
-
-          <div class="early-career">
-            <p><strong>GSI Commerce</strong> <span>Sr. Production Artist, 2002 - 2007</span></p>
-            <p><strong>Global Sports</strong> <span>Intern / Production Artist, 1999 - 2002</span></p>
+          <div class="stack">
+            ${resume.education
+              .map(
+                (school) => `
+                  <article>
+                    <h3>${escapeHtml(school.school)}</h3>
+                    ${school.details.map((detail) => `<p>${escapeHtml(detail)}</p>`).join("")}
+                  </article>
+                `,
+              )
+              .join("")}
           </div>
         </section>
-      </div>
-    </section>
 
-    <section class="portfolio-section origin-section" id="origin">
-      <div class="section-title">
-        <h2>Creative Foundation</h2>
-        <span aria-hidden="true"></span>
-      </div>
-      <div class="origin-grid">
-        <div>
-          <p>
-            I originally wanted to be an artist and graphic designer, so I chose art school. After graduating, I landed
-            as an intern at Global Sports, a startup e-commerce company, where I helped dress mannequins and path out
-            product images from the photo studio. That internship became a production artist role, where I learned how
-            to edit product imagery and got my first real taste of creative workflow.
-          </p>
-          <p>
-            Product arrived, was barcoded, steamed, styled, photographed, added to the server, and then picked up by the
-            production team. We transformed those files into final flat images ready for online use. The goal was always
-            better and faster. Over time, we used automation to move files, resize images, and speed up repetitive work
-            with Photoshop actions. As my role grew into management, I kept pushing the process forward with better
-            tracking, better offshore handoffs, and better methods for retouching teams to move quickly and accurately.
-            During my time there, the team maintained a 99.9% on-time SLA rate.
-          </p>
-          <p>
-            After more than 20 years in e-commerce production, I moved into a new challenge: financial marketing and
-            creative project management. At Vanguard, we helped build a creative agency from the ground up. We started
-            small, grew more effective, and soon adopted Workfront. I dove deeply into the platform, earned admin access
-            in less than a year, and became one of the team's Workfront subject matter experts.
-          </p>
-          <p>
-            A few years later, I moved into the role that became my new passion: creative technologist. The work became
-            finding inventive ways to solve creative and operational problems with technology. Then AI changed the scale
-            of what was possible. It turned more of my ideas into working tools, especially where creative thinking and
-            code meet.
-          </p>
+        <section id="skills">
+          <div class="section-title compact">
+            <h2>Skills</h2>
+            <span aria-hidden="true"></span>
+          </div>
+          ${resume.skills
+            .map(
+              (group) => `
+                <div class="skill-group">
+                  <h3>${escapeHtml(group.group)}</h3>
+                  <ul>${group.items.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}</ul>
+                </div>
+              `,
+            )
+            .join("")}
+        </section>
+      </aside>
+
+      <section class="experience" id="experience" aria-label="Work experience">
+        <div class="section-title compact">
+          <h2>Work Experience</h2>
+          <span aria-hidden="true"></span>
         </div>
+
+        ${resume.experience
+          .map(
+            (job) => `
+              <article class="job ${job.featured ? "featured" : ""}">
+                <div class="job-heading">
+                  <div>
+                    <h3>${escapeHtml(job.company)}</h3>
+                    <p>${escapeHtml(job.role)}</p>
+                  </div>
+                  <p class="date">${escapeHtml(job.dates)}</p>
+                </div>
+                <ul>${job.bullets.map((bullet) => `<li>${escapeHtml(bullet)}</li>`).join("")}</ul>
+              </article>
+            `,
+          )
+          .join("")}
+
+        <div class="early-career">
+          ${resume.earlyCareer
+            .map(
+              (item) => `
+                <p><strong>${escapeHtml(item.company)}</strong> <span>${escapeHtml(item.details)}</span></p>
+              `,
+            )
+            .join("")}
+        </div>
+      </section>
+    </div>
+  </section>
+`;
+
+const homeMetrics = [
+  ["Based", "Coatesville, PA"],
+  ["Focus", "Creative Ops + Tech"],
+  ["Experience", "18+ years"],
+  ["Open to", "Director / Manager"],
+];
+
+const impactMetrics = [
+  ["$23M", "Creative production operation scaled into annual business"],
+  ["23%", "Reduced time-to-market through Workfront workflow optimization"],
+  ["1 day -> 5 min", "Compressed approved content generation cycles"],
+  ["99.9%", "Maintained on-time SLA through production workflow improvements"],
+  ["57+", "Retail clients onboarded into image production workflows"],
+  ["Top 3", "Automated resource recommendations for project staffing"],
+];
+
+const aboutCards = [
+  [
+    "Streamline creative workflows from intake to delivery.",
+    "I identify bottlenecks, reduce unnecessary handoffs, and create processes that help work move predictably through the organization.",
+  ],
+  [
+    "Design operational systems that scale with the business.",
+    "From Workfront implementations and automation programs to reporting frameworks and governance models, I create solutions that grow with the team.",
+  ],
+  [
+    "Align teams, stakeholders, and technology.",
+    "Strong operations isn't just about tools. It's about creating shared visibility, clear expectations, and confidence across creative, marketing, and business teams.",
+  ],
+];
+
+const focusAreas = [
+  "Creative Operations Leadership",
+  "Workflow Design & Optimization",
+  "Creative Technology Strategy",
+  "Resource & Capacity Planning",
+  "Process Governance",
+  "Automation & AI Enablement",
+  "Studio Operations",
+  "Cross-Functional Team Leadership",
+];
+
+const workCards = projectGroups.slice(0, 6);
+
+const renderHome = () => `
+  ${renderHeader()}
+  <main class="syndicate-home">
+    <section class="syndicate-hero">
+      <div class="hero-copy">
+        <p class="status-pill">Open to Director / Manager roles · Coatesville, PA & remote</p>
+        <h1 id="resume-title">I help creative organizations scale <span>without losing quality, clarity, or momentum.</span></h1>
+        <p class="hero-statement">
+          I'm Brian Flieck, a creative operations and technology leader who helps creative teams work smarter at scale.
+          My focus is building the processes, workflows, systems, and team structures that reduce friction, improve
+          visibility, and help great creative work move faster. Over the last 18 years I've led studio operations,
+          creative services teams, workflow transformation initiatives, and automation programs across enterprise organizations.
+        </p>
+        <div class="hero-actions">
+          <a class="button" href="mailto:brianflieck@gmail.com">Start a conversation</a>
+          <a class="button ghost" href="#work">See selected work</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="quick-facts" aria-label="Profile facts">
+      ${homeMetrics.map(([label, value]) => `<article><p>${label}</p><strong>${value}</strong></article>`).join("")}
+    </section>
+
+    <section class="content-band" id="about">
+      <p class="section-kicker">About</p>
+      <h2>How I help creative organizations perform at scale.</h2>
+      <p class="section-lede">
+        My role sits at the intersection of people, process, and technology. Sometimes that means redesigning workflows.
+        Sometimes it means implementing new systems. Sometimes it means helping teams align around a better way of working.
+        The goal is always the same: create an environment where creative teams can focus on creative work.
+      </p>
+      <div class="about-grid">
+        ${aboutCards
+          .map(
+            ([title, copy]) => `
+              <article>
+                <h3>${title}</h3>
+                <p>${copy}</p>
+              </article>
+            `,
+          )
+          .join("")}
+      </div>
+    </section>
+
+    <section class="content-band" id="impact">
+      <p class="section-kicker">Impact</p>
+      <h2>Results driven through process, workflow, and operational transformation.</h2>
+      <p class="section-lede">Selected numbers from the systems and teams I've led. Details and references available on request.</p>
+      <div class="metric-grid">
+        ${impactMetrics.map(([metric, label]) => `<article><strong>${metric}</strong><p>${label}</p></article>`).join("")}
+      </div>
+    </section>
+
+    <section class="content-band experience-band" id="experience">
+      <p class="section-kicker">Experience</p>
+      <h2>Leadership experience across creative operations, studio management, and workflow transformation.</h2>
+      <div class="experience-layout">
         <aside>
-          <p class="date">Through Line</p>
-          <h3>Better workflows, happier clients, faster creative production.</h3>
-          <p>
-            The constant thread has been the challenge I enjoy most: inventing new methods, tools, and systems that help
-            creative teams produce better work with more speed, accuracy, and confidence.
-          </p>
+          <h3>Core Focus Areas</h3>
+          <div class="tag-cloud">
+            ${focusAreas.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
+          </div>
         </aside>
+        <div class="timeline-cards">
+          ${activeResume.experience
+            .map(
+              (job) => `
+                <article>
+                  <div>
+                    <h3>${escapeHtml(job.role)} <span>· ${escapeHtml(job.company)}</span></h3>
+                    <p>${escapeHtml(job.dates).toUpperCase()}</p>
+                  </div>
+                  <ul>${job.bullets.slice(0, 3).map((bullet) => `<li>${escapeHtml(bullet)}</li>`).join("")}</ul>
+                </article>
+              `,
+            )
+            .join("")}
+          <p class="history-note">Full work history available on request — <a href="#contact">get in touch</a>.</p>
+        </div>
       </div>
     </section>
 
-    <section class="portfolio-section" id="work">
-      <div class="section-title">
-        <h2>Portfolio</h2>
-        <span aria-hidden="true"></span>
-      </div>
-      <p class="section-intro">
-        Selected work migrated from the previous bflieck.com portfolio, reframed around creative technology,
-        e-commerce production, and workflow systems.
-      </p>
-      <div class="project-grid">
-        ${projectCards}
+    <section class="content-band" id="work">
+      <p class="section-kicker">Selected Work</p>
+      <h2>Workflow transformations and operational solutions.</h2>
+      <p class="section-lede">Selected work migrated from the previous portfolio, reframed around creative technology and workflow systems.</p>
+      <div class="work-matrix">
+        ${workCards
+          .map(
+            (project) => `
+              <a href="#project/${project.slug}">
+                <p>${escapeHtml(project.category)}</p>
+                <h3>${escapeHtml(project.title)}</h3>
+                <span>${escapeHtml(project.summary)}</span>
+              </a>
+            `,
+          )
+          .join("")}
       </div>
     </section>
 
-    <section class="systems-band" id="systems">
+    <section class="content-band contact-band" id="contact">
       <div>
-        <p class="name-kicker">Workflow Systems</p>
-        <h2>Creative operations that move faster because the process is designed.</h2>
+        <p class="section-kicker">Contact</p>
+        <h2>If you're looking to improve how creative work gets planned, produced, and delivered, I'd love to talk.</h2>
+        <p class="section-lede">I partner with organizations that want better visibility, stronger processes, and more efficient creative operations without sacrificing creative quality.</p>
+        <div class="hero-actions">
+          <a class="button" href="mailto:brianflieck@gmail.com">Email Brian</a>
+          <a class="button ghost" href="${resumeUrl}">Download resume (PDF)</a>
+        </div>
       </div>
-      <p>
-        Experience across Adobe Creative Cloud, Workfront, Workfront Fusion, Wrike, Smartsheet, Figma,
-        AI-assisted content generation, cross-functional production systems, and the legacy production utilities
-        migrated from bflieck.com.
-      </p>
-      <div class="systems-grid" aria-label="Creative operations capabilities">
-        <span>Creative Intake</span>
-        <span>AI Resource Matching</span>
-        <span>Asset Automation</span>
-        <span>AI Content Generation</span>
-        <span>SLA Dashboarding</span>
-        <span>Workflow Governance</span>
-      </div>
-    </section>
-
-    <section class="closing-band">
-      <p>References available on request.</p>
-      <a class="button" href="${resumeUrl}">View Resume PDF</a>
-      <a class="button ghost" href="mailto:brianflieck@gmail.com">Contact Brian</a>
+      <dl class="contact-card">
+        <div><dt>Email</dt><dd>brianflieck@gmail.com</dd></div>
+        <div><dt>LinkedIn</dt><dd>/in/brianflieck</dd></div>
+        <div><dt>Location</dt><dd>Coatesville, PA</dd></div>
+        <div><dt>Availability</dt><dd>Open</dd></div>
+      </dl>
     </section>
   </main>
+  <footer class="site-footer">
+    <span>© 2026 Brian Flieck</span>
+    <span>Creative Operations & Technology · Coatesville, PA</span>
+  </footer>
 `;
+
+const projectCards = projectGroups
+  .map(
+    (project) => `
+      <article class="project-card">
+        ${
+          project.video
+            ? `<iframe class="project-video" src="${project.video}" title="${escapeHtml(project.title)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen loading="lazy"></iframe>`
+            : `<a class="project-card-link" href="#project/${project.slug}" aria-label="Open ${escapeHtml(project.title)}">
+                ${project.image ? `<img src="${project.image}" alt="" loading="lazy">` : ""}
+              </a>`
+        }
+        <div>
+          <p class="date">${escapeHtml(project.category)}</p>
+          <h3>${escapeHtml(project.title)}</h3>
+          <p>${escapeHtml(project.summary)}</p>
+        </div>
+        <a class="project-open" href="#project/${project.slug}">Open Project</a>
+      </article>
+    `,
+  )
+  .join("");
 
 const renderProject = (project) => `
   ${renderHeader()}
@@ -489,9 +479,9 @@ const renderProject = (project) => `
     <section class="project-detail">
       <a class="back-link" href="#work">Back to Portfolio</a>
       <div class="detail-heading">
-        <p class="date">${project.category}</p>
-        <h1>${project.title}</h1>
-        <p>${project.summary}</p>
+        <p class="date">${escapeHtml(project.category)}</p>
+        <h1>${escapeHtml(project.title)}</h1>
+        <p>${escapeHtml(project.summary)}</p>
       </div>
       ${
         project.videos?.length
@@ -500,23 +490,21 @@ const renderProject = (project) => `
                 .map(
                   (video) => `
                     <figure class="detail-video-frame ${video.className ?? ""}">
-                      <iframe src="${video.src}" title="${video.title}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-                      <figcaption>${video.title}</figcaption>
+                      <iframe src="${video.src}" title="${escapeHtml(video.title)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                      <figcaption>${escapeHtml(video.title)}</figcaption>
                     </figure>
                   `,
                 )
                 .join("")}
             </div>`
           : project.video
-            ? `<iframe class="detail-video" src="${project.video}" title="${project.title}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`
-          : ""
+            ? `<iframe class="detail-video" src="${project.video}" title="${escapeHtml(project.title)}" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`
+            : ""
       }
       ${
         project.images?.length
           ? `<div class="detail-gallery">
-              ${project.images
-                .map((image) => `<img src="${image}" alt="" loading="lazy">`)
-                .join("")}
+              ${project.images.map((image) => `<img src="${image}" alt="" loading="lazy">`).join("")}
             </div>`
           : project.video
             ? ""
@@ -528,9 +516,202 @@ const renderProject = (project) => `
   </main>
 `;
 
+const renderPrintResume = () => `
+  <main class="print-shell">
+    <div class="print-actions">
+      <a class="button ghost" href="#resume-editor">Back to Editor</a>
+      <button class="button" data-action="print-resume" type="button">Create PDF</button>
+    </div>
+    ${renderResumeSections(activeResume)}
+  </main>
+`;
+
+const renderResumeEditor = () => `
+  ${renderHeader()}
+  <main class="resume-editor-shell">
+    <section class="editor-toolbar">
+      <div>
+        <p class="name-kicker">Resume Publisher</p>
+        <h1><span>Edit</span><span>Resume</span></h1>
+        <p class="hero-statement">Make changes, preview the site version, create a PDF from the print view, then publish when Netlify secrets are configured.</p>
+      </div>
+      <div class="editor-actions">
+        <button class="button" data-action="save-draft" type="button">Save Draft</button>
+        <a class="button ghost" href="#resume-print">PDF View</a>
+        <button class="button ghost" data-action="download-json" type="button">Download JSON</button>
+        <button class="button ghost" data-action="publish" type="button">Publish</button>
+      </div>
+    </section>
+
+    <section class="editor-grid">
+      <form class="editor-panel" id="resume-form">
+        <fieldset>
+          <legend>Core</legend>
+          <label>Title <input name="title" value="${escapeHtml(activeResume.title)}"></label>
+          <label>First Name <input name="name.first" value="${escapeHtml(activeResume.name.first)}"></label>
+          <label>Last Name <input name="name.last" value="${escapeHtml(activeResume.name.last)}"></label>
+          <label>Headline <textarea name="headline" rows="3">${escapeHtml(activeResume.headline)}</textarea></label>
+          <label>Contact Lines <textarea name="contact" rows="4">${escapeHtml(toLines(activeResume.contact))}</textarea></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Profile</legend>
+          <label>Profile Title <textarea name="profileTitle" rows="3">${escapeHtml(activeResume.profileTitle)}</textarea></label>
+          <label>Profile Copy <textarea name="profile" rows="5">${escapeHtml(activeResume.profile)}</textarea></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>Accomplishments</legend>
+          ${activeResume.accomplishments
+            .map(
+              (item, index) => `
+                <div class="editor-card">
+                  <label>Metric <input name="accomplishments.${index}.metric" value="${escapeHtml(item.metric)}"></label>
+                  <label>Title <input name="accomplishments.${index}.title" value="${escapeHtml(item.title)}"></label>
+                  <label>Description <textarea name="accomplishments.${index}.description" rows="3">${escapeHtml(item.description)}</textarea></label>
+                </div>
+              `,
+            )
+            .join("")}
+        </fieldset>
+
+        <fieldset>
+          <legend>Experience</legend>
+          ${activeResume.experience
+            .map(
+              (job, index) => `
+                <div class="editor-card">
+                  <label>Company <input name="experience.${index}.company" value="${escapeHtml(job.company)}"></label>
+                  <label>Role <input name="experience.${index}.role" value="${escapeHtml(job.role)}"></label>
+                  <label>Dates <input name="experience.${index}.dates" value="${escapeHtml(job.dates)}"></label>
+                  <label>Bullets <textarea name="experience.${index}.bullets" rows="6">${escapeHtml(toLines(job.bullets))}</textarea></label>
+                </div>
+              `,
+            )
+            .join("")}
+        </fieldset>
+
+        <fieldset>
+          <legend>Skills</legend>
+          ${activeResume.skills
+            .map(
+              (group, index) => `
+                <div class="editor-card">
+                  <label>Group <input name="skills.${index}.group" value="${escapeHtml(group.group)}"></label>
+                  <label>Items <textarea name="skills.${index}.items" rows="5">${escapeHtml(toLines(group.items))}</textarea></label>
+                </div>
+              `,
+            )
+            .join("")}
+        </fieldset>
+      </form>
+
+      <aside class="editor-preview" aria-label="Resume preview">
+        <div class="editor-preview-heading">
+          <p class="name-kicker">Site Preview</p>
+        </div>
+        ${renderResumeSections(activeResume)}
+      </aside>
+    </section>
+
+    <p class="publish-status" role="status" aria-live="polite"></p>
+  </main>
+`;
+
+const setPathValue = (target, path, value) => {
+  const parts = path.split(".");
+  const last = parts.pop();
+  const parent = parts.reduce((obj, part) => obj[part], target);
+  parent[last] = last === "bullets" || last === "items" || path === "contact" ? fromLines(value) : value.trim();
+};
+
+const syncResumeFromForm = () => {
+  const form = document.querySelector("#resume-form");
+  if (!form) return;
+
+  const nextResume = structuredClone(activeResume);
+  new FormData(form).forEach((value, key) => setPathValue(nextResume, key, value));
+  activeResume = nextResume;
+};
+
+const publishResume = async () => {
+  syncResumeFromForm();
+  saveDraft();
+
+  const publishKey = window.prompt("Enter the resume publish key from Netlify.");
+  if (!publishKey) return;
+
+  const status = document.querySelector(".publish-status");
+  status.textContent = "Publishing resume data...";
+
+  try {
+    const response = await fetch("/.netlify/functions/publish-resume", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "x-publish-key": publishKey,
+      },
+      body: JSON.stringify({ resume: activeResume }),
+    });
+
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || "Publish failed");
+    status.textContent = "Published. Netlify will rebuild the site from the GitHub commit.";
+  } catch (error) {
+    status.textContent = `Publish failed: ${error.message}`;
+  }
+};
+
+const downloadResumeJson = () => {
+  syncResumeFromForm();
+  saveDraft();
+
+  const blob = new Blob([JSON.stringify(activeResume, null, 2)], { type: "application/json" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "resumeData.json";
+  link.click();
+  URL.revokeObjectURL(link.href);
+};
+
+const bindEditor = () => {
+  const form = document.querySelector("#resume-form");
+  form?.addEventListener("input", () => {
+    syncResumeFromForm();
+    saveDraft();
+    document.querySelector(".editor-preview").innerHTML = renderResumeSections(activeResume);
+  });
+
+  document.querySelector('[data-action="save-draft"]')?.addEventListener("click", () => {
+    syncResumeFromForm();
+    saveDraft();
+    document.querySelector(".publish-status").textContent = "Draft saved in this browser.";
+  });
+
+  document.querySelector('[data-action="publish"]')?.addEventListener("click", publishResume);
+  document.querySelector('[data-action="download-json"]')?.addEventListener("click", downloadResumeJson);
+};
+
 const render = () => {
+  loadDraft();
+
   const projectSlug = window.location.hash.match(/^#project\/(.+)/)?.[1];
   const project = projectGroups.find((item) => item.slug === projectSlug);
+  const route = window.location.hash.replace("#", "");
+
+  if (route === "resume-editor") {
+    document.querySelector("#app").innerHTML = renderResumeEditor();
+    bindEditor();
+    window.scrollTo(0, 0);
+    return;
+  }
+
+  if (route === "resume-print") {
+    document.querySelector("#app").innerHTML = renderPrintResume();
+    document.querySelector('[data-action="print-resume"]')?.addEventListener("click", () => window.print());
+    window.scrollTo(0, 0);
+    return;
+  }
 
   document.querySelector("#app").innerHTML = project ? renderProject(project) : renderHome();
 
