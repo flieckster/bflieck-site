@@ -705,7 +705,7 @@ const renderHome = () => `
         <p class="section-lede">I partner with organizations that want better visibility, stronger processes, and more efficient creative operations without sacrificing creative quality.</p>
         <div class="hero-actions">
           <a class="button" href="mailto:brianflieck@gmail.com">Email Brian</a>
-          <a class="button ghost" href="#resume-print">Download resume (PDF)</a>
+          <a class="button ghost" href="#resume-print">Print resume (PDF)</a>
           <a class="button ghost" href="${resumeTextUrl}" download>Download resume (TXT)</a>
         </div>
       </div>
@@ -792,7 +792,7 @@ const renderPrintResume = () => `
   <main class="print-shell">
     <div class="print-actions">
       <a class="button ghost" href="#resume-editor">Back to Editor</a>
-      <button class="button" data-action="print-resume" type="button">Create PDF</button>
+      <button class="button" data-action="print-resume" type="button">Print / Save PDF</button>
       <button class="button ghost" data-action="download-txt" type="button">Download TXT</button>
     </div>
     ${renderPdfResumeDocument(activeResume)}
@@ -810,7 +810,7 @@ const renderResumeEditor = () => `
       </div>
       <div class="editor-actions">
         <button class="button" data-action="save-draft" type="button">Save Draft</button>
-        <a class="button ghost" href="#resume-print">PDF View</a>
+        <a class="button ghost" href="#resume-print">Print View</a>
         <button class="button ghost" data-action="download-txt" type="button">Download TXT</button>
         <button class="button ghost" data-action="download-json" type="button">Download JSON</button>
         <button class="button ghost" data-action="publish" type="button">Publish</button>
