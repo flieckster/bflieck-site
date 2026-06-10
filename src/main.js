@@ -33,6 +33,10 @@ PROFILE
 ${resume.profileTitle}
 ${resume.profile}
 
+${resume.showProductLeadership !== false && resume.productLeadership?.length ? `PRODUCT LEADERSHIP
+${resume.productLeadership.map((item) => `- ${item}`).join("\n")}
+
+` : ""}
 IMPACT
 ${resume.accomplishments.map((item) => `- ${item.metric}: ${item.title}. ${item.description}`).join("\n")}
 
@@ -349,6 +353,17 @@ const renderResumeDocument = (resume) => `
       <p class="section-lede">${escapeHtml(resume.profile)}</p>
     </section>
 
+    ${
+      resume.showProductLeadership !== false && resume.productLeadership?.length
+        ? `<section class="resume-document-section">
+            <p class="section-kicker">Product Leadership</p>
+            <ul class="resume-leadership-list">
+              ${resume.productLeadership.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+            </ul>
+          </section>`
+        : ""
+    }
+
     <section class="resume-document-section">
       <p class="section-kicker">Impact</p>
       <div class="resume-impact-grid">
@@ -432,14 +447,10 @@ const homeMetrics = [
   ["Open to", "Director / Manager"],
 ];
 
-const impactMetrics = [
-  ["$23M", "Creative production operation scaled into annual business"],
-  ["23%", "Reduced time-to-market through Workfront workflow optimization"],
-  ["1 day -> 5 min", "Compressed approved content generation cycles"],
-  ["99.9%", "Maintained on-time SLA through production workflow improvements"],
-  ["57+", "Retail clients onboarded into image production workflows"],
-  ["Top 3", "Automated resource recommendations for project staffing"],
-];
+const impactMetricOrder = ["$23M", "23%", "1 day to 5 min", "99.9%", "57+", "Top 3"];
+const impactMetrics = impactMetricOrder
+  .map((metric) => activeResume.accomplishments.find((item) => item.metric === metric))
+  .filter(Boolean);
 
 const aboutCards = [
   [
@@ -520,7 +531,17 @@ const renderHome = () => `
       <h2>Results driven through process, workflow, and operational transformation.</h2>
       <p class="section-lede">Selected numbers from the systems and teams I've led. Details and references available on request.</p>
       <div class="metric-grid">
-        ${impactMetrics.map(([metric, label]) => `<article><strong>${metric}</strong><p>${label}</p></article>`).join("")}
+        ${impactMetrics
+          .map(
+            (item) => `
+              <article>
+                <strong>${escapeHtml(item.metric)}</strong>
+                <h3>${escapeHtml(item.title)}</h3>
+                <p>${escapeHtml(item.description)}</p>
+              </article>
+            `,
+          )
+          .join("")}
       </div>
     </section>
 
@@ -709,6 +730,15 @@ const renderResumeEditor = () => `
         </fieldset>
 
         <fieldset>
+          <legend>Product Leadership</legend>
+          <label class="checkbox-label">
+            <input name="showProductLeadership" type="checkbox" value="true" ${activeResume.showProductLeadership !== false ? "checked" : ""}>
+            Show Product Leadership section
+          </label>
+          <label>Bullets <textarea name="productLeadership" rows="7">${escapeHtml(toLines(activeResume.productLeadership ?? []))}</textarea></label>
+        </fieldset>
+
+        <fieldset>
           <legend>Accomplishments</legend>
           ${activeResume.accomplishments
             .map(
@@ -770,7 +800,15 @@ const setPathValue = (target, path, value) => {
   const parts = path.split(".");
   const last = parts.pop();
   const parent = parts.reduce((obj, part) => obj[part], target);
-  parent[last] = last === "bullets" || last === "items" || path === "contact" ? fromLines(value) : value.trim();
+  if (path === "showProductLeadership") {
+    parent[last] = value === "true";
+    return;
+  }
+
+  parent[last] =
+    last === "bullets" || last === "items" || path === "contact" || path === "productLeadership"
+      ? fromLines(value)
+      : value.trim();
 };
 
 const syncResumeFromForm = () => {
@@ -778,6 +816,7 @@ const syncResumeFromForm = () => {
   if (!form) return;
 
   const nextResume = structuredClone(activeResume);
+  nextResume.showProductLeadership = false;
   new FormData(form).forEach((value, key) => setPathValue(nextResume, key, value));
   activeResume = nextResume;
 };

@@ -1055,9 +1055,16 @@ nav {
   line-height: 1;
 }
 
+.metric-grid h3 {
+  margin: 12px 0 0;
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.25;
+}
+
 .metric-grid p {
   max-width: 260px;
-  margin: 12px 0 0;
+  margin: 8px 0 0;
   color: var(--soft-ink);
   font-size: 12px;
 }
@@ -1297,6 +1304,24 @@ nav {
   background: var(--panel);
 }
 
+.resume-leadership-list {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px 28px;
+  margin-top: 24px;
+}
+
+.resume-leadership-list li {
+  margin: 0;
+  color: var(--soft-ink);
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+.resume-leadership-list li::before {
+  background: var(--purple-hot);
+}
+
 .resume-impact-grid article {
   min-height: 150px;
   padding: 22px;
@@ -1459,7 +1484,8 @@ nav {
 
 .editor-panel fieldset:nth-child(3),
 .editor-panel fieldset:nth-child(4),
-.editor-panel fieldset:nth-child(5) {
+.editor-panel fieldset:nth-child(5),
+.editor-panel fieldset:nth-child(6) {
   grid-column: 1 / -1;
 }
 
@@ -1491,6 +1517,12 @@ nav {
   text-transform: uppercase;
 }
 
+.editor-panel .checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
 .editor-panel input,
 .editor-panel textarea {
   width: 100%;
@@ -1504,6 +1536,10 @@ nav {
   line-height: 1.4;
   padding: 10px 12px;
   text-transform: none;
+}
+
+.editor-panel .checkbox-label input {
+  width: auto;
 }
 
 .editor-panel textarea {
@@ -1661,7 +1697,8 @@ nav {
   .contact-card div,
   .resume-document-hero,
   .resume-document-grid,
-  .resume-impact-grid {
+  .resume-impact-grid,
+  .resume-leadership-list {
     grid-template-columns: 1fr;
   }
 

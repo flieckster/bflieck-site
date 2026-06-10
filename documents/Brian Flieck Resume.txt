@@ -1,14 +1,21 @@
 Brian Flieck
-Creative Technology Operations
+Product Management | Marketing Operations | Adobe Workfront Strategy
 
 Coatesville, PA | www.bflieck.com | brianflieck@gmail.com | linkedin.com/in/brianflieck
 
 SUMMARY
-Creative operations leader and technologist building AI-enabled systems that help teams move faster, produce better work, and reduce operational drag.
+Product-minded marketing operations leader specializing in Adobe Workfront, workflow strategy, and AI-enabled transformation. Experienced translating complex business challenges into scalable operating models, governance frameworks, integrations, and product roadmaps that improve execution, adoption, and business outcomes. Known for aligning stakeholders, defining priorities, and building systems that simplify how work gets planned, managed, and delivered.
 
 PROFILE
-Creative operations leader with the hands-on builder mindset to turn complex workflow problems into usable systems.
-Innovative professional with 24 years of experience in creative technology, operations, and product management. Proven record driving adoption of Adobe Creative Cloud and AI-driven workflows, integrating systems to improve efficiency, and delivering measurable business impact in regulated environments. Adept at translating operational needs into product roadmaps, coaching teams, and optimizing performance.
+Product and operations leader with 24 years of experience designing scalable workflow ecosystems for creative and marketing organizations.
+Proven ability to partner with stakeholders, identify operational challenges, define strategic roadmaps, and deliver enterprise solutions that improve planning, governance, resourcing, execution, and reporting. Combines hands-on platform expertise with a consultative approach to guide teams through change, drive adoption, and balance immediate business needs against long-term scalability.
+
+PRODUCT LEADERSHIP
+- Own Adobe Workfront strategy and governance for agency operations supporting marketing, creative, and business stakeholders.
+- Partner with divisional leaders, administrators, and technology teams to evaluate enhancement requests, prioritize platform investments, and balance short-term business needs against long-term scalability.
+- Define standards for intake, workflows, metadata, templates, reporting, and automation to improve consistency, compliance, and operational efficiency.
+- Lead discovery sessions with stakeholders to translate business challenges into scalable platform capabilities, governance models, and roadmap initiatives.
+- Drive adoption through training programs, office hours, documentation, and change management efforts that increase platform engagement and workflow compliance.
 
 IMPACT
 - 23%: Reduced time-to-market. Optimized Adobe Workfront workflows through process redesign, automation, and platform improvements.
@@ -26,18 +33,18 @@ IMPACT
 EXPERIENCE
 Creative Technologist | RED @ Vanguard | 2024 - Present
 - Optimized Adobe Workfront workflows, reducing time-to-market by 23% through process redesign, automation, and platform optimization.
-- Designed and implemented custom Workfront workflows to support agency users, improving operational efficiency, team productivity, and cross-functional visibility.
-- Partnered with IT and business stakeholders to gather requirements, define scalable solutions, and deliver cross-platform integrations.
-- Led cross-functional integration and ongoing optimization of Adobe Workfront across teams, improving adoption and process consistency.
-- Developed RED Ink, a custom AI content-generation application trained on approved assets, brand guidelines, style guides, and compliance frameworks. Enabled automated creation of articles, emails, and social content directly from creative briefs, reducing content production time from approximately one day to five minutes.
-- Created an automated Workfront Fusion-powered resourcing tool that evaluates project roles, identifies users with matching roles and available capacity, and recommends the top three candidates for each role. The tool posts an ordered recommendation list at the project update level and notifies the resource coordinator, streamlining staffing decisions.
+- Designed and implemented scalable Workfront solutions supporting agency operations, improving visibility, governance, adoption, and operational efficiency.
+- Partnered with business stakeholders, divisional administrators, and IT teams to evaluate opportunities, prioritize enhancements, define requirements, and deliver roadmap initiatives supporting agency operations.
+- Led cross-functional integration and ongoing optimization of Adobe Workfront, improving governance, adoption, reporting consistency, and process standardization.
+- Defined the vision, requirements, and implementation strategy for RED Ink, an AI-powered content generation platform leveraging approved assets, compliance standards, and brand guidelines. Partnered with stakeholders to identify business needs, establish governance requirements, and deliver a solution that reduced content creation time from one day to five minutes.
+- Led discovery and solution design for an automated capacity-planning capability within Workfront, defining business requirements, prioritization logic, and governance rules that enabled resource coordinators to identify best-fit staffing recommendations in real time.
 
 Creative Agency Manager | RED @ Vanguard | 2021 - 2024
-- Led and optimized creative processes for digital, video, UX, interactive, print, and presentation materials.
-- Managed end-to-end project lifecycles, ensuring on-time and high-quality creative deliverables across multiple channels.
-- Designed Workfront efficiencies that reduced bottlenecks and improved team productivity.
-- Oversaw creative asset development with internal stakeholders to align brand and business objectives.
-- Served as Workfront administrator and subject matter expert during the Wrike-to-Workfront transition.
+- Led planning and execution processes across digital, video, UX, interactive, print, and presentation workstreams.
+- Managed intake, prioritization, workflow governance, stakeholder communication, and execution for cross-functional creative initiatives.
+- Designed Workfront governance and workflow standards that reduced bottlenecks, improved reporting accuracy, and increased operational efficiency.
+- Partnered with business stakeholders to align work management processes with organizational objectives and resource capacity.
+- Served as Workfront administrator and subject matter expert during Vanguard's transition from Wrike to Adobe Workfront, driving adoption, training, governance, and platform standardization.
 
 Director of Retouching - Workflow Solutions | Industrial Color Studios | 2016 - 2021
 - Managed final asset delivery for high-profile clients while meeting budget, deadline, and quality standards.
@@ -56,9 +63,9 @@ EARLY CAREER
 - Global Sports: Intern / Production Artist, 1999 - 2002
 
 SKILLS
-Technical: Workfront, Workfront Fusion, Adobe Creative Cloud, Firefly familiarity, Writer.com API & Agents, Figma, Wrike, Smartsheet, Bedrock, Microsoft Office
-Operations: Project Management, Stakeholder Alignment, Agile Project Management, Client Relations, AI-driven Workflow Automation, Image Production & Quality Review
-Leadership: Problem Solving, Troubleshooting, Critical Thinking, Process Improvement, Employee Growth, Training Initiatives
+Product Management: Product Strategy, Product Ownership, Roadmap Development, Requirements Gathering, Stakeholder Management, Governance & Standards, Agile Delivery, Change Management, Prioritization Frameworks
+Marketing Operations: Adobe Workfront, Workfront Fusion, Workflow Design, Intake Management, Resource Planning, Capacity Management, Reporting & Analytics, Content Supply Chain, Process Optimization
+Technology & Automation: Adobe Creative Cloud, Writer.com, AWS Bedrock, Figma, Wrike, Smartsheet, API Integrations, AI Workflow Automation, Data Visualization
 
 EDUCATION
 University of Penn

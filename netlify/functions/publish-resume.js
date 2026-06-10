@@ -22,6 +22,10 @@ PROFILE
 ${resume.profileTitle}
 ${resume.profile}
 
+${resume.showProductLeadership !== false && resume.productLeadership?.length ? `PRODUCT LEADERSHIP
+${resume.productLeadership.map((item) => `- ${item}`).join("\n")}
+
+` : ""}
 IMPACT
 ${resume.accomplishments.map((item) => `- ${item.metric}: ${item.title}. ${item.description}`).join("\n")}
 
