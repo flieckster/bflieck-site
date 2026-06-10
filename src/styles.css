@@ -1438,6 +1438,255 @@ nav {
   color: var(--ink);
 }
 
+.pdf-resume {
+  width: min(8.5in, calc(100% - 32px));
+  margin: 32px auto;
+  padding: 0.42in;
+  background: #f8fafc;
+  color: #16202c;
+  box-shadow: 0 18px 70px rgba(0, 0, 0, 0.32);
+}
+
+.pdf-resume-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 2.45in;
+  gap: 0.35in;
+  align-items: end;
+  padding-bottom: 0.22in;
+  border-bottom: 2px solid #16202c;
+}
+
+.pdf-kicker {
+  margin: 0 0 0.08in;
+  color: #256979;
+  font-size: 8.5pt;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  line-height: 1.35;
+  text-transform: uppercase;
+}
+
+.pdf-resume h1 {
+  display: block;
+  margin: 0;
+  color: #16202c;
+  font-family: Inter, ui-sans-serif, system-ui, sans-serif;
+  font-size: 33pt;
+  font-weight: 850;
+  line-height: 0.96;
+  letter-spacing: 0;
+  text-transform: none;
+}
+
+.pdf-resume-header ul {
+  display: grid;
+  gap: 0.045in;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pdf-resume-header li {
+  margin: 0;
+  padding: 0;
+  color: #475569;
+  font-size: 8.4pt;
+  line-height: 1.35;
+  text-align: right;
+}
+
+.pdf-resume-header li::before {
+  display: none;
+}
+
+.pdf-section {
+  padding: 0.18in 0;
+  border-bottom: 1px solid #d7dee8;
+}
+
+.pdf-section h2 {
+  margin: 0 0 0.08in;
+  color: #256979;
+  font-size: 8.2pt;
+  font-weight: 900;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.pdf-section h3 {
+  margin: 0 0 0.04in;
+  color: #16202c;
+  font-size: 10.3pt;
+  line-height: 1.25;
+}
+
+.pdf-section p,
+.pdf-section li {
+  color: #334155;
+  font-size: 8.7pt;
+  line-height: 1.42;
+}
+
+.pdf-summary p {
+  margin: 0;
+  color: #223142;
+  font-size: 9.2pt;
+  line-height: 1.45;
+}
+
+.pdf-profile p {
+  margin: 0.06in 0 0;
+}
+
+.pdf-two-column-list {
+  columns: 2;
+  column-gap: 0.28in;
+  margin: 0;
+  padding: 0;
+}
+
+.pdf-two-column-list li,
+.pdf-experience-list li {
+  break-inside: avoid;
+  margin: 0 0 0.045in;
+  padding-left: 0.13in;
+}
+
+.pdf-two-column-list li::before,
+.pdf-experience-list li::before {
+  top: 0.55em;
+  width: 3px;
+  height: 3px;
+  background: #256979;
+}
+
+.pdf-impact-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  border: 1px solid #d7dee8;
+  background: #fff;
+}
+
+.pdf-impact-grid article {
+  min-height: 0.92in;
+  padding: 0.1in;
+  border-right: 1px solid #d7dee8;
+  border-bottom: 1px solid #d7dee8;
+}
+
+.pdf-impact-grid article:nth-child(3n) {
+  border-right: 0;
+}
+
+.pdf-impact-grid article:nth-last-child(-n + 2) {
+  border-bottom: 0;
+}
+
+.pdf-impact-grid strong {
+  display: block;
+  color: #16202c;
+  font-size: 14.5pt;
+  line-height: 1;
+}
+
+.pdf-impact-grid span {
+  display: block;
+  margin-top: 0.04in;
+  color: #16202c;
+  font-size: 8pt;
+  font-weight: 850;
+  line-height: 1.2;
+}
+
+.pdf-impact-grid p {
+  margin: 0.035in 0 0;
+  color: #475569;
+  font-size: 7.3pt;
+  line-height: 1.32;
+}
+
+.pdf-main-grid {
+  display: grid;
+  grid-template-columns: 2.15in minmax(0, 1fr);
+  gap: 0.28in;
+  border-bottom: 0;
+}
+
+.pdf-skill-group,
+.pdf-education {
+  margin-bottom: 0.12in;
+}
+
+.pdf-skill-group p,
+.pdf-education p {
+  margin: 0;
+}
+
+.pdf-experience-list {
+  display: grid;
+  gap: 0.105in;
+}
+
+.pdf-experience-list article {
+  break-inside: avoid;
+  padding-bottom: 0.105in;
+  border-bottom: 1px solid #d7dee8;
+}
+
+.pdf-experience-list article:last-child {
+  border-bottom: 0;
+}
+
+.pdf-experience-list article > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.12in;
+  margin-bottom: 0.045in;
+}
+
+.pdf-experience-list h3 {
+  margin: 0;
+}
+
+.pdf-experience-list h3 span {
+  display: block;
+  color: #64748b;
+  font-weight: 700;
+}
+
+.pdf-experience-list article > div p {
+  flex: 0 0 auto;
+  margin: 0;
+  color: #64748b;
+  font-size: 7.4pt;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+.pdf-experience-list ul {
+  margin: 0;
+  padding: 0;
+}
+
+.pdf-early-career {
+  display: grid;
+  gap: 0.03in;
+  margin-top: 0.1in;
+  padding-top: 0.08in;
+  border-top: 1px solid #d7dee8;
+}
+
+.pdf-early-career p {
+  margin: 0;
+  color: #475569;
+  font-size: 8pt;
+  line-height: 1.3;
+}
+
+.pdf-early-career strong {
+  color: #16202c;
+}
+
 .resume-editor-shell {
   width: min(1440px, calc(100% - 32px));
   margin: 0 auto;
@@ -1754,6 +2003,23 @@ nav {
 }
 
 @media print {
+  @page {
+    size: letter;
+    margin: 0.45in;
+  }
+
+  :root {
+    color-scheme: light;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    color: #17202b !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
   .print-actions,
   .site-header {
     display: none;
@@ -1761,15 +2027,219 @@ nav {
 
   .print-shell {
     padding-bottom: 0;
+    background: #fff;
   }
 
   .print-shell .resume-document {
     width: 100%;
     margin: 0;
+    color: #17202b;
+  }
+
+  .print-shell .pdf-resume {
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    box-shadow: none;
+  }
+
+  .pdf-resume-header,
+  .pdf-section,
+  .pdf-impact-grid article,
+  .pdf-skill-group,
+  .pdf-education,
+  .pdf-experience-list article {
+    break-inside: avoid;
+  }
+
+  .resume-document-hero {
+    grid-template-columns: minmax(0, 1fr) 2.25in;
+    gap: 0.28in;
+    padding: 0 0 0.22in;
+    border-bottom-color: #d8dee7;
+  }
+
+  .resume-document-hero h1 {
+    color: #17202b;
+    font-size: 31pt;
+    line-height: 0.95;
+  }
+
+  .resume-document-hero > div > p:not(.status-pill),
+  .section-lede {
+    color: #334155;
+    font-size: 8.8pt;
+    line-height: 1.45;
+  }
+
+  .resume-document-hero > div > p:not(.status-pill) {
+    margin-top: 0.12in;
+  }
+
+  .status-pill {
+    margin-bottom: 0.12in;
+    padding: 2px 7px;
+    border-color: #d8dee7;
+    background: #f7f9fb;
+    color: #42606b;
+    font-size: 7.5pt;
+  }
+
+  .resume-contact-card {
+    border-color: #d8dee7;
+    background: #fbfcfd;
+  }
+
+  .resume-contact-card span {
+    padding: 0.075in 0.1in;
+    border-bottom-color: #e6ebf1;
+    color: #475569;
+    font-size: 7.8pt;
+  }
+
+  .resume-document-section {
+    padding: 0.24in 0;
+    border-bottom-color: #d8dee7;
+  }
+
+  .resume-document-section h2 {
+    max-width: none;
+    color: #17202b;
+    font-size: 16pt;
+    line-height: 1.12;
+  }
+
+  .section-kicker {
+    margin-bottom: 0.06in;
+    color: #256979;
+    font-size: 7.2pt;
+    letter-spacing: 0.12em;
+  }
+
+  .resume-leadership-list {
+    grid-template-columns: 1fr;
+    gap: 0.05in;
+    margin-top: 0.14in;
+  }
+
+  .resume-leadership-list li,
+  .resume-timeline li,
+  .resume-impact-grid p,
+  .resume-education p,
+  .resume-early-career p {
+    color: #334155;
+    font-size: 8pt;
+    line-height: 1.38;
+  }
+
+  li {
+    margin: 0.035in 0;
+    padding-left: 0.12in;
+  }
+
+  li::before {
+    top: 0.52em;
+    width: 3px;
+    height: 3px;
+    background: #256979;
+  }
+
+  .resume-impact-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 0.14in;
+    border-color: #d8dee7;
+    background: #fff;
+  }
+
+  .resume-impact-grid article {
+    min-height: auto;
+    padding: 0.12in;
+    border-color: #d8dee7;
+    background: #fbfcfd;
+  }
+
+  .resume-impact-grid strong {
+    color: #17202b;
+    font-size: 15pt;
+  }
+
+  .resume-impact-grid h3,
+  .resume-skill-block h3,
+  .resume-education h3,
+  .resume-timeline h3 {
+    color: #17202b;
+    font-size: 8.5pt;
+    line-height: 1.22;
+  }
+
+  .resume-impact-grid h3 {
+    margin: 0.06in 0 0.03in;
+  }
+
+  .resume-document-grid {
+    grid-template-columns: 1.9in minmax(0, 1fr);
+    gap: 0.28in;
+  }
+
+  .resume-skill-block {
+    margin-bottom: 0.16in;
+  }
+
+  .tag-cloud {
+    gap: 4px;
+    margin-top: 0.06in;
+  }
+
+  .tag-cloud span {
+    padding: 2px 5px;
+    border-color: #d8dee7;
+    background: #f7f9fb;
+    color: #475569;
+    font-size: 7.2pt;
+  }
+
+  .resume-education {
+    gap: 0.08in;
+    margin-top: 0.08in;
+  }
+
+  .resume-timeline {
+    gap: 0.09in;
+  }
+
+  .resume-timeline article {
+    padding: 0.13in;
+    border-color: #d8dee7;
+    background: #fbfcfd;
+    break-inside: avoid;
+  }
+
+  .resume-timeline article > div {
+    gap: 0.12in;
+    margin-bottom: 0.06in;
+  }
+
+  .resume-timeline article > div p {
+    color: #64748b;
+    font-size: 7.1pt;
+  }
+
+  .resume-timeline h3 span {
+    color: #64748b;
+  }
+
+  .resume-early-career {
+    gap: 0.04in;
+    margin-top: 0.1in;
+    padding-top: 0.1in;
+    border-top-color: #d8dee7;
   }
 
   .resume-document-section,
-  .resume-document-hero {
+  .resume-document-hero,
+  .resume-impact-grid article,
+  .resume-skill-block,
+  .resume-education article {
     break-inside: avoid;
   }
 }

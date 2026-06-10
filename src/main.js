@@ -440,6 +440,111 @@ const renderResumeDocument = (resume) => `
   </section>
 `;
 
+const renderPdfResumeDocument = (resume) => `
+  <section class="pdf-resume" aria-labelledby="pdf-resume-title">
+    <header class="pdf-resume-header">
+      <div>
+        <p class="pdf-kicker">${escapeHtml(resume.title)}</p>
+        <h1 id="pdf-resume-title">${escapeHtml(resume.name.first)} ${escapeHtml(resume.name.last)}</h1>
+      </div>
+      <ul>
+        ${resume.contact.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+      </ul>
+    </header>
+
+    <section class="pdf-section pdf-summary">
+      <h2>Summary</h2>
+      <p>${escapeHtml(resume.headline)}</p>
+    </section>
+
+    <section class="pdf-section pdf-profile">
+      <h2>Profile</h2>
+      <h3>${escapeHtml(resume.profileTitle)}</h3>
+      <p>${escapeHtml(resume.profile)}</p>
+    </section>
+
+    ${
+      resume.showProductLeadership !== false && resume.productLeadership?.length
+        ? `<section class="pdf-section">
+            <h2>Product Leadership</h2>
+            <ul class="pdf-two-column-list">
+              ${resume.productLeadership.map((item) => `<li>${escapeHtml(item)}</li>`).join("")}
+            </ul>
+          </section>`
+        : ""
+    }
+
+    <section class="pdf-section">
+      <h2>Selected Impact</h2>
+      <div class="pdf-impact-grid">
+        ${resume.accomplishments
+          .map(
+            (item) => `
+              <article>
+                <strong>${escapeHtml(item.metric)}</strong>
+                <span>${escapeHtml(item.title)}</span>
+                <p>${escapeHtml(item.description)}</p>
+              </article>
+            `,
+          )
+          .join("")}
+      </div>
+    </section>
+
+    <section class="pdf-section pdf-main-grid">
+      <aside>
+        <h2>Skills</h2>
+        ${resume.skills
+          .map(
+            (group) => `
+              <div class="pdf-skill-group">
+                <h3>${escapeHtml(group.group)}</h3>
+                <p>${escapeHtml(group.items.join(", "))}</p>
+              </div>
+            `,
+          )
+          .join("")}
+
+        <h2>Education</h2>
+        ${resume.education
+          .map(
+            (school) => `
+              <div class="pdf-education">
+                <h3>${escapeHtml(school.school)}</h3>
+                ${school.details.map((detail) => `<p>${escapeHtml(detail)}</p>`).join("")}
+              </div>
+            `,
+          )
+          .join("")}
+      </aside>
+
+      <div>
+        <h2>Experience</h2>
+        <div class="pdf-experience-list">
+          ${resume.experience
+            .map(
+              (job) => `
+                <article>
+                  <div>
+                    <h3>${escapeHtml(job.role)} <span>${escapeHtml(job.company)}</span></h3>
+                    <p>${escapeHtml(job.dates)}</p>
+                  </div>
+                  <ul>${job.bullets.map((bullet) => `<li>${escapeHtml(bullet)}</li>`).join("")}</ul>
+                </article>
+              `,
+            )
+            .join("")}
+        </div>
+        <div class="pdf-early-career">
+          ${resume.earlyCareer
+            .map((item) => `<p><strong>${escapeHtml(item.company)}</strong> ${escapeHtml(item.details)}</p>`)
+            .join("")}
+        </div>
+      </div>
+    </section>
+  </section>
+`;
+
 const homeMetrics = [
   ["Based", "Coatesville, PA"],
   ["Focus", "Creative Ops + Tech"],
@@ -600,7 +705,7 @@ const renderHome = () => `
         <p class="section-lede">I partner with organizations that want better visibility, stronger processes, and more efficient creative operations without sacrificing creative quality.</p>
         <div class="hero-actions">
           <a class="button" href="mailto:brianflieck@gmail.com">Email Brian</a>
-          <a class="button ghost" href="#resume-print">Download resume (PDF)</a>
+          <a class="button ghost" href="#resume-print">Print resume (PDF)</a>
           <a class="button ghost" href="${resumeTextUrl}" download>Download resume (TXT)</a>
         </div>
       </div>
@@ -687,10 +792,10 @@ const renderPrintResume = () => `
   <main class="print-shell">
     <div class="print-actions">
       <a class="button ghost" href="#resume-editor">Back to Editor</a>
-      <button class="button" data-action="print-resume" type="button">Create PDF</button>
+      <button class="button" data-action="print-resume" type="button">Print / Save PDF</button>
       <button class="button ghost" data-action="download-txt" type="button">Download TXT</button>
     </div>
-    ${renderResumeDocument(activeResume)}
+    ${renderPdfResumeDocument(activeResume)}
   </main>
 `;
 
@@ -705,7 +810,7 @@ const renderResumeEditor = () => `
       </div>
       <div class="editor-actions">
         <button class="button" data-action="save-draft" type="button">Save Draft</button>
-        <a class="button ghost" href="#resume-print">PDF View</a>
+        <a class="button ghost" href="#resume-print">Print View</a>
         <button class="button ghost" data-action="download-txt" type="button">Download TXT</button>
         <button class="button ghost" data-action="download-json" type="button">Download JSON</button>
         <button class="button ghost" data-action="publish" type="button">Publish</button>
