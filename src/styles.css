@@ -1754,6 +1754,23 @@ nav {
 }
 
 @media print {
+  @page {
+    size: letter;
+    margin: 0.45in;
+  }
+
+  :root {
+    color-scheme: light;
+  }
+
+  html,
+  body {
+    background: #fff !important;
+    color: #17202b !important;
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+  }
+
   .print-actions,
   .site-header {
     display: none;
@@ -1761,15 +1778,203 @@ nav {
 
   .print-shell {
     padding-bottom: 0;
+    background: #fff;
   }
 
   .print-shell .resume-document {
     width: 100%;
     margin: 0;
+    color: #17202b;
+  }
+
+  .resume-document-hero {
+    grid-template-columns: minmax(0, 1fr) 2.25in;
+    gap: 0.28in;
+    padding: 0 0 0.22in;
+    border-bottom-color: #d8dee7;
+  }
+
+  .resume-document-hero h1 {
+    color: #17202b;
+    font-size: 31pt;
+    line-height: 0.95;
+  }
+
+  .resume-document-hero > div > p:not(.status-pill),
+  .section-lede {
+    color: #334155;
+    font-size: 8.8pt;
+    line-height: 1.45;
+  }
+
+  .resume-document-hero > div > p:not(.status-pill) {
+    margin-top: 0.12in;
+  }
+
+  .status-pill {
+    margin-bottom: 0.12in;
+    padding: 2px 7px;
+    border-color: #d8dee7;
+    background: #f7f9fb;
+    color: #42606b;
+    font-size: 7.5pt;
+  }
+
+  .resume-contact-card {
+    border-color: #d8dee7;
+    background: #fbfcfd;
+  }
+
+  .resume-contact-card span {
+    padding: 0.075in 0.1in;
+    border-bottom-color: #e6ebf1;
+    color: #475569;
+    font-size: 7.8pt;
+  }
+
+  .resume-document-section {
+    padding: 0.24in 0;
+    border-bottom-color: #d8dee7;
+  }
+
+  .resume-document-section h2 {
+    max-width: none;
+    color: #17202b;
+    font-size: 16pt;
+    line-height: 1.12;
+  }
+
+  .section-kicker {
+    margin-bottom: 0.06in;
+    color: #256979;
+    font-size: 7.2pt;
+    letter-spacing: 0.12em;
+  }
+
+  .resume-leadership-list {
+    grid-template-columns: 1fr;
+    gap: 0.05in;
+    margin-top: 0.14in;
+  }
+
+  .resume-leadership-list li,
+  .resume-timeline li,
+  .resume-impact-grid p,
+  .resume-education p,
+  .resume-early-career p {
+    color: #334155;
+    font-size: 8pt;
+    line-height: 1.38;
+  }
+
+  li {
+    margin: 0.035in 0;
+    padding-left: 0.12in;
+  }
+
+  li::before {
+    top: 0.52em;
+    width: 3px;
+    height: 3px;
+    background: #256979;
+  }
+
+  .resume-impact-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 0.14in;
+    border-color: #d8dee7;
+    background: #fff;
+  }
+
+  .resume-impact-grid article {
+    min-height: auto;
+    padding: 0.12in;
+    border-color: #d8dee7;
+    background: #fbfcfd;
+  }
+
+  .resume-impact-grid strong {
+    color: #17202b;
+    font-size: 15pt;
+  }
+
+  .resume-impact-grid h3,
+  .resume-skill-block h3,
+  .resume-education h3,
+  .resume-timeline h3 {
+    color: #17202b;
+    font-size: 8.5pt;
+    line-height: 1.22;
+  }
+
+  .resume-impact-grid h3 {
+    margin: 0.06in 0 0.03in;
+  }
+
+  .resume-document-grid {
+    grid-template-columns: 1.9in minmax(0, 1fr);
+    gap: 0.28in;
+  }
+
+  .resume-skill-block {
+    margin-bottom: 0.16in;
+  }
+
+  .tag-cloud {
+    gap: 4px;
+    margin-top: 0.06in;
+  }
+
+  .tag-cloud span {
+    padding: 2px 5px;
+    border-color: #d8dee7;
+    background: #f7f9fb;
+    color: #475569;
+    font-size: 7.2pt;
+  }
+
+  .resume-education {
+    gap: 0.08in;
+    margin-top: 0.08in;
+  }
+
+  .resume-timeline {
+    gap: 0.09in;
+  }
+
+  .resume-timeline article {
+    padding: 0.13in;
+    border-color: #d8dee7;
+    background: #fbfcfd;
+    break-inside: avoid;
+  }
+
+  .resume-timeline article > div {
+    gap: 0.12in;
+    margin-bottom: 0.06in;
+  }
+
+  .resume-timeline article > div p {
+    color: #64748b;
+    font-size: 7.1pt;
+  }
+
+  .resume-timeline h3 span {
+    color: #64748b;
+  }
+
+  .resume-early-career {
+    gap: 0.04in;
+    margin-top: 0.1in;
+    padding-top: 0.1in;
+    border-top-color: #d8dee7;
   }
 
   .resume-document-section,
-  .resume-document-hero {
+  .resume-document-hero,
+  .resume-impact-grid article,
+  .resume-skill-block,
+  .resume-education article {
     break-inside: avoid;
   }
 }
