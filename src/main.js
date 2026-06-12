@@ -19,6 +19,7 @@ const escapeHtml = (value = "") =>
 const toLines = (items = []) => items.join("\n");
 const fromLines = (value = "") => value.split("\n").map((item) => item.trim()).filter(Boolean);
 const compact = (items = []) => items.filter(Boolean).join("\n");
+const shouldShowProfile = (resume) => resume.showProfile !== false;
 
 const formatResumeText = (resume) =>
   `${resume.name.first} ${resume.name.last}
@@ -29,10 +30,11 @@ ${resume.contact.join(" | ")}
 SUMMARY
 ${resume.headline}
 
-PROFILE
+${shouldShowProfile(resume) ? `PROFILE
 ${resume.profileTitle}
 ${resume.profile}
 
+` : ""}
 ${resume.showProductLeadership !== false && resume.productLeadership?.length ? `PRODUCT LEADERSHIP
 ${resume.productLeadership.map((item) => `- ${item}`).join("\n")}
 
@@ -230,13 +232,17 @@ const renderResumeSections = (resume) => `
       ${resume.contact.map(renderContactItem).join("")}
     </div>
 
-    <section class="profile-section intro-panel" id="profile">
-      <div class="section-title">
-        <p>Profile</p>
-        <h2>${escapeHtml(resume.profileTitle)}</h2>
-      </div>
-      <p class="profile-copy">${escapeHtml(resume.profile)}</p>
-    </section>
+    ${
+      shouldShowProfile(resume)
+        ? `<section class="profile-section intro-panel" id="profile">
+            <div class="section-title">
+              <p>Profile</p>
+              <h2>${escapeHtml(resume.profileTitle)}</h2>
+            </div>
+            <p class="profile-copy">${escapeHtml(resume.profile)}</p>
+          </section>`
+        : ""
+    }
 
     <section class="accomplishments-section" id="accomplishments">
       <div class="section-title">
@@ -347,11 +353,15 @@ const renderResumeDocument = (resume) => `
       </div>
     </header>
 
-    <section class="resume-document-section">
-      <p class="section-kicker">Profile</p>
-      <h2>${escapeHtml(resume.profileTitle)}</h2>
-      <p class="section-lede">${escapeHtml(resume.profile)}</p>
-    </section>
+    ${
+      shouldShowProfile(resume)
+        ? `<section class="resume-document-section">
+            <p class="section-kicker">Profile</p>
+            <h2>${escapeHtml(resume.profileTitle)}</h2>
+            <p class="section-lede">${escapeHtml(resume.profile)}</p>
+          </section>`
+        : ""
+    }
 
     ${
       resume.showProductLeadership !== false && resume.productLeadership?.length
@@ -457,11 +467,15 @@ const renderPdfResumeDocument = (resume) => `
       <p>${escapeHtml(resume.headline)}</p>
     </section>
 
-    <section class="pdf-section pdf-profile">
-      <h2>Profile</h2>
-      <h3>${escapeHtml(resume.profileTitle)}</h3>
-      <p>${escapeHtml(resume.profile)}</p>
-    </section>
+    ${
+      shouldShowProfile(resume)
+        ? `<section class="pdf-section pdf-profile">
+            <h2>Profile</h2>
+            <h3>${escapeHtml(resume.profileTitle)}</h3>
+            <p>${escapeHtml(resume.profile)}</p>
+          </section>`
+        : ""
+    }
 
     ${
       resume.showProductLeadership !== false && resume.productLeadership?.length
@@ -830,6 +844,16 @@ const renderResumeEditor = () => `
 
         <fieldset>
           <legend>Profile</legend>
+          <div class="toggle-group" role="radiogroup" aria-label="Profile section visibility">
+            <label>
+              <input name="showProfile" type="radio" value="true" ${activeResume.showProfile !== false ? "checked" : ""}>
+              <span>Keep Profile</span>
+            </label>
+            <label>
+              <input name="showProfile" type="radio" value="false" ${activeResume.showProfile === false ? "checked" : ""}>
+              <span>Leave Out</span>
+            </label>
+          </div>
           <label>Profile Title <textarea name="profileTitle" rows="3">${escapeHtml(activeResume.profileTitle)}</textarea></label>
           <label>Profile Copy <textarea name="profile" rows="5">${escapeHtml(activeResume.profile)}</textarea></label>
         </fieldset>
@@ -905,7 +929,7 @@ const setPathValue = (target, path, value) => {
   const parts = path.split(".");
   const last = parts.pop();
   const parent = parts.reduce((obj, part) => obj[part], target);
-  if (path === "showProductLeadership") {
+  if (path === "showProductLeadership" || path === "showProfile") {
     parent[last] = value === "true";
     return;
   }

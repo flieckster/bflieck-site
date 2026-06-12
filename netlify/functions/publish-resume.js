@@ -8,6 +8,7 @@ const jsonResponse = (statusCode, body) => ({
 
 const requiredString = (value) => typeof value === "string" && value.trim().length > 0;
 const compact = (items = []) => items.filter(Boolean).join("\n");
+const shouldShowProfile = (resume) => resume.showProfile !== false;
 
 const formatResumeText = (resume) =>
   `${resume.name.first} ${resume.name.last}
@@ -18,10 +19,11 @@ ${resume.contact.join(" | ")}
 SUMMARY
 ${resume.headline}
 
-PROFILE
+${shouldShowProfile(resume) ? `PROFILE
 ${resume.profileTitle}
 ${resume.profile}
 
+` : ""}
 ${resume.showProductLeadership !== false && resume.productLeadership?.length ? `PRODUCT LEADERSHIP
 ${resume.productLeadership.map((item) => `- ${item}`).join("\n")}
 

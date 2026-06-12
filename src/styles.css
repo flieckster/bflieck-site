@@ -1772,6 +1772,52 @@ nav {
   gap: 10px;
 }
 
+.editor-panel .toggle-group {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  margin: 0 0 14px;
+}
+
+.editor-panel .toggle-group label {
+  position: relative;
+  margin: 0;
+}
+
+.editor-panel .toggle-group input {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  cursor: pointer;
+}
+
+.editor-panel .toggle-group span {
+  display: flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--line);
+  background: #060608;
+  color: var(--soft-ink);
+  font-size: 12px;
+  font-weight: 900;
+  letter-spacing: 0.08em;
+  line-height: 1.2;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.editor-panel .toggle-group input:checked + span {
+  border-color: var(--purple-hot);
+  background: rgba(154, 92, 255, 0.16);
+  color: var(--ink);
+}
+
+.editor-panel .toggle-group input:focus-visible + span {
+  outline: 2px solid var(--purple-hot);
+  outline-offset: 2px;
+}
+
 .editor-panel input,
 .editor-panel textarea {
   width: 100%;
@@ -2005,7 +2051,7 @@ nav {
 @media print {
   @page {
     size: letter;
-    margin: 0.45in;
+    margin: 0.16in;
   }
 
   :root {
@@ -2043,8 +2089,133 @@ nav {
     box-shadow: none;
   }
 
+  .pdf-resume-header {
+    grid-template-columns: minmax(0, 1fr) 2.15in;
+    gap: 0.22in;
+    padding-bottom: 0.1in;
+  }
+
+  .pdf-kicker {
+    margin-bottom: 0.04in;
+    font-size: 7.2pt;
+    line-height: 1.2;
+  }
+
+  .pdf-resume h1 {
+    font-size: 23pt;
+    line-height: 0.94;
+  }
+
+  .pdf-resume-header ul {
+    gap: 0.02in;
+  }
+
+  .pdf-resume-header li {
+    font-size: 7.1pt;
+    line-height: 1.18;
+  }
+
+  .pdf-section {
+    padding: 0.062in 0;
+  }
+
+  .pdf-section h2 {
+    margin-bottom: 0.04in;
+    font-size: 7pt;
+    line-height: 1.1;
+  }
+
+  .pdf-section h3 {
+    margin-bottom: 0.025in;
+    font-size: 8.4pt;
+    line-height: 1.15;
+  }
+
+  .pdf-section p,
+  .pdf-section li {
+    font-size: 6.8pt;
+    line-height: 1.2;
+  }
+
+  .pdf-summary p {
+    font-size: 7.3pt;
+    line-height: 1.22;
+  }
+
+  .pdf-profile p {
+    margin-top: 0.035in;
+  }
+
+  .pdf-two-column-list {
+    column-gap: 0.2in;
+  }
+
+  .pdf-two-column-list li,
+  .pdf-experience-list li {
+    margin-bottom: 0.014in;
+    padding-left: 0.09in;
+  }
+
+  .pdf-impact-grid article {
+    min-height: 0.46in;
+    padding: 0.04in;
+  }
+
+  .pdf-impact-grid strong {
+    font-size: 10.8pt;
+  }
+
+  .pdf-impact-grid span {
+    margin-top: 0.025in;
+    font-size: 6.8pt;
+    line-height: 1.1;
+  }
+
+  .pdf-impact-grid p {
+    margin-top: 0.02in;
+    font-size: 6.1pt;
+    line-height: 1.14;
+  }
+
+  .pdf-main-grid {
+    grid-template-columns: 1.78in minmax(0, 1fr);
+    gap: 0.18in;
+  }
+
+  .pdf-skill-group,
+  .pdf-education {
+    margin-bottom: 0.055in;
+  }
+
+  .pdf-experience-list {
+    gap: 0.045in;
+  }
+
+  .pdf-experience-list article {
+    padding-bottom: 0.035in;
+  }
+
+  .pdf-experience-list article > div {
+    gap: 0.08in;
+    margin-bottom: 0.025in;
+  }
+
+  .pdf-experience-list article > div p {
+    font-size: 6.3pt;
+  }
+
+  .pdf-early-career {
+    margin-top: 0.055in;
+    padding-top: 0.055in;
+  }
+
+  .pdf-early-career p {
+    margin-bottom: 0.018in;
+    font-size: 6.5pt;
+    line-height: 1.18;
+  }
+
   .pdf-resume-header,
-  .pdf-section,
   .pdf-impact-grid article,
   .pdf-skill-group,
   .pdf-education,
