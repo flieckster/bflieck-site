@@ -924,17 +924,23 @@ const renderResumeEditor = () => `
     </section>
 
     <section class="editor-grid">
-      <form class="editor-panel" id="resume-form">
-        <fieldset>
+      <form class="editor-panel editor-resume" id="resume-form">
+        <fieldset class="editor-resume-core">
           <legend>Core</legend>
-          <label>Title <input name="title" value="${escapeHtml(activeResume.title)}"></label>
-          <label>First Name <input name="name.first" value="${escapeHtml(activeResume.name.first)}"></label>
-          <label>Last Name <input name="name.last" value="${escapeHtml(activeResume.name.last)}"></label>
-          <label>Headline <textarea name="headline" rows="3">${escapeHtml(activeResume.headline)}</textarea></label>
-          <label>Contact Lines <textarea name="contact" rows="4">${escapeHtml(toLines(activeResume.contact))}</textarea></label>
+          <div class="editor-resume-hero">
+            <div>
+              <label>Professional Title <input name="title" value="${escapeHtml(activeResume.title)}"></label>
+              <div class="editor-name-fields">
+                <label>First Name <input name="name.first" value="${escapeHtml(activeResume.name.first)}"></label>
+                <label>Last Name <input name="name.last" value="${escapeHtml(activeResume.name.last)}"></label>
+              </div>
+              <label>Headline <textarea name="headline" rows="5">${escapeHtml(activeResume.headline)}</textarea></label>
+            </div>
+            <label class="editor-contact-field">Contact Lines <textarea name="contact" rows="8">${escapeHtml(toLines(activeResume.contact))}</textarea></label>
+          </div>
         </fieldset>
 
-        <fieldset>
+        <fieldset class="editor-resume-profile">
           <legend>Profile</legend>
           <div class="toggle-group" role="radiogroup" aria-label="Profile section visibility">
             <label>
@@ -950,7 +956,7 @@ const renderResumeEditor = () => `
           <label>Profile Copy <textarea name="profile" rows="5">${escapeHtml(activeResume.profile)}</textarea></label>
         </fieldset>
 
-        <fieldset>
+        <fieldset class="editor-resume-leadership">
           <legend>Product Leadership</legend>
           <label class="checkbox-label">
             <input name="showProductLeadership" type="checkbox" value="true" ${activeResume.showProductLeadership !== false ? "checked" : ""}>
@@ -959,7 +965,7 @@ const renderResumeEditor = () => `
           <label>Bullets <textarea name="productLeadership" rows="7">${escapeHtml(toLines(activeResume.productLeadership ?? []))}</textarea></label>
         </fieldset>
 
-        <fieldset>
+        <fieldset class="editor-resume-impact">
           <legend>Accomplishments</legend>
           ${activeResume.accomplishments
             .map(
@@ -974,7 +980,7 @@ const renderResumeEditor = () => `
             .join("")}
         </fieldset>
 
-        <fieldset>
+        <fieldset class="editor-resume-experience">
           <legend>Experience</legend>
           ${activeResume.experience
             .map(
@@ -990,7 +996,7 @@ const renderResumeEditor = () => `
             .join("")}
         </fieldset>
 
-        <fieldset>
+        <fieldset class="editor-resume-skills">
           <legend>Skills</legend>
           ${activeResume.skills
             .map(

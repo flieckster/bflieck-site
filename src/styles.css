@@ -1761,33 +1761,90 @@ nav {
 
 .editor-panel {
   display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 18px;
+  grid-template-columns: minmax(220px, 0.3fr) minmax(0, 0.7fr);
+  grid-template-areas:
+    "core core"
+    "profile profile"
+    "leadership leadership"
+    "impact impact"
+    "skills experience";
+  gap: 0 52px;
+  width: min(980px, 100%);
+  margin: 0 auto;
 }
 
-.editor-panel fieldset:nth-child(3),
-.editor-panel fieldset:nth-child(4),
-.editor-panel fieldset:nth-child(5),
-.editor-panel fieldset:nth-child(6) {
-  grid-column: 1 / -1;
-}
+.editor-resume-core { grid-area: core; }
+.editor-resume-profile { grid-area: profile; }
+.editor-resume-leadership { grid-area: leadership; }
+.editor-resume-impact { grid-area: impact; }
+.editor-resume-skills { grid-area: skills; }
+.editor-resume-experience { grid-area: experience; }
 
 .editor-panel fieldset {
   min-width: 0;
   margin: 0;
-  padding: 18px;
-  border: 1px solid var(--line);
-  background: rgba(255, 255, 255, 0.04);
+  padding: 42px 0;
+  border: 0;
+  border-bottom: 1px solid var(--line);
+  background: transparent;
 }
 
 .editor-panel legend {
-  padding: 0 8px;
+  padding: 0;
   color: var(--purple-hot);
   font-size: 11px;
   font-weight: 900;
   letter-spacing: 0.18em;
   text-transform: uppercase;
 }
+
+.editor-resume-core { padding-top: 54px !important; }
+
+.editor-resume-hero {
+  display: grid;
+  grid-template-columns: minmax(0, .68fr) minmax(280px, .32fr);
+  gap: 44px;
+  align-items: end;
+}
+
+.editor-name-fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+
+.editor-resume-core input[name="name.first"],
+.editor-resume-core input[name="name.last"] {
+  padding-left: 0;
+  border-width: 0 0 1px;
+  background: transparent;
+  color: var(--ink);
+  font-size: clamp(32px, 5vw, 54px);
+  font-weight: 820;
+  line-height: 1;
+}
+
+.editor-contact-field textarea {
+  min-height: 190px;
+  border-radius: 5px !important;
+  background: var(--panel) !important;
+  line-height: 2.15 !important;
+}
+
+.editor-resume-profile textarea[name="profileTitle"] {
+  color: var(--ink);
+  font-size: clamp(22px, 3vw, 34px);
+  font-weight: 820;
+  line-height: 1.15;
+}
+
+.editor-resume-impact { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.editor-resume-impact legend { grid-column: 1 / -1; }
+.editor-resume-impact .editor-card { margin: 0; padding: 18px; border-color: var(--line); }
+.editor-resume-impact .editor-card:nth-of-type(3n) { border-right: 0; }
+.editor-resume-impact input[name$="metric"] { color: var(--ink); font-size: 24px; font-weight: 900; }
+
+.editor-resume-skills { align-self: start; }
+.editor-resume-skills .editor-card { padding: 0; border: 0; background: transparent; }
+.editor-resume-skills .editor-card + .editor-card { margin-top: 24px; }
+
+.editor-resume-experience .editor-card { border-radius: 5px; background: var(--panel); }
 
 .editor-panel label {
   display: grid;
@@ -1978,6 +2035,20 @@ nav {
     grid-template-columns: 1fr;
   }
 
+  .editor-panel {
+    grid-template-areas:
+      "core"
+      "profile"
+      "leadership"
+      "impact"
+      "skills"
+      "experience";
+    gap: 0;
+  }
+
+  .editor-resume-hero { grid-template-columns: 1fr; }
+  .editor-resume-impact { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+
   .hero-lockup {
     min-height: auto;
     padding-bottom: 70px;
@@ -2004,6 +2075,8 @@ nav {
 }
 
 @media (max-width: 640px) {
+  .editor-resume-impact,
+  .editor-name-fields { grid-template-columns: 1fr; }
   .site-header {
     align-items: flex-start;
     flex-direction: column;
