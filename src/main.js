@@ -814,6 +814,80 @@ const renderPrintResume = () => `
   </main>
 `;
 
+const getPathValue = (target, path) => path.split(".").reduce((value, part) => value?.[part], target);
+
+const suggestionLabel = (path, resume) => {
+  const parts = path.split(".");
+  const labels = { title: "Core · Title", headline: "Core · Headline", profileTitle: "Profile · Title", profile: "Profile · Copy" };
+  if (labels[path]) return labels[path];
+  if (parts[0] === "productLeadership") return `Product Leadership · Bullet ${Number(parts[1]) + 1}`;
+  if (parts[0] === "accomplishments") return `Accomplishments · ${resume.accomplishments?.[parts[1]]?.title || `Item ${Number(parts[1]) + 1}`} · ${parts[2]}`;
+  if (parts[0] === "experience") {
+    const job = resume.experience?.[parts[1]];
+    const suffix = parts[2] === "bullets" ? `Bullet ${Number(parts[3]) + 1}` : parts[2];
+    return `Experience · ${job?.role || job?.company || `Role ${Number(parts[1]) + 1}`} · ${suffix}`;
+  }
+  if (parts[0] === "skills") {
+    const group = resume.skills?.[parts[1]];
+    const suffix = parts[2] === "items" ? `Item ${Number(parts[3]) + 1}` : parts[2];
+    return `Skills · ${group?.group || `Group ${Number(parts[1]) + 1}`} · ${suffix}`;
+  }
+  return path;
+};
+
+const collectResumeChanges = (before, after) => {
+  const changes = [];
+  const walk = (oldValue, newValue, path) => {
+    if (Array.isArray(oldValue) || Array.isArray(newValue)) {
+      const oldItems = Array.isArray(oldValue) ? oldValue : [];
+      const newItems = Array.isArray(newValue) ? newValue : [];
+      for (let index = 0; index < Math.max(oldItems.length, newItems.length); index += 1) walk(oldItems[index], newItems[index], `${path}.${index}`);
+      return;
+    }
+    if ((oldValue && typeof oldValue === "object") || (newValue && typeof newValue === "object")) {
+      const keys = new Set([...Object.keys(oldValue || {}), ...Object.keys(newValue || {})]);
+      keys.forEach((key) => walk(oldValue?.[key], newValue?.[key], path ? `${path}.${key}` : key));
+      return;
+    }
+    if (oldValue !== newValue) changes.push({ id: `change-${changes.length}`, path, before: oldValue, after: newValue, label: suggestionLabel(path, beforeRoot) });
+  };
+  const beforeRoot = before;
+  Object.keys(after).forEach((key) => walk(before[key], after[key], key));
+  return changes;
+};
+
+const renderSuggestionValue = (value, emptyLabel) => value === undefined ? `<em>${emptyLabel}</em>` : escapeHtml(String(value));
+
+const renderJobSuggestions = () => {
+  if (!jobAnalysis?.result) return "";
+  const changes = jobAnalysis.changes || [];
+  return `
+    <div class="job-analysis-results">
+      <h3>Review ${changes.length} suggested ${changes.length === 1 ? "change" : "changes"}</h3>
+      <p>${escapeHtml(jobAnalysis.result.summary)}</p>
+      <ul class="keyword-list">${jobAnalysis.result.keywords.map((keyword) => `<li>${escapeHtml(keyword)}</li>`).join("")}</ul>
+      <div class="suggestion-actions">
+        <button class="button ghost" data-action="select-suggestions" type="button">Select All</button>
+        <button class="button ghost" data-action="clear-suggestions" type="button">Clear</button>
+      </div>
+      <div class="suggestion-list">
+        ${changes.length ? changes.map((change) => `
+          <label class="suggestion-card">
+            <input type="checkbox" name="job-suggestion" value="${change.id}">
+            <span class="suggestion-content">
+              <strong>${escapeHtml(change.label)}</strong>
+              <span class="suggestion-comparison">
+                <span><small>Remove / Current</small>${renderSuggestionValue(change.before, "Nothing currently here")}</span>
+                <span><small>Add / Suggested</small>${renderSuggestionValue(change.after, "Remove this content")}</span>
+              </span>
+            </span>
+          </label>`).join("") : `<p>No wording changes were recommended.</p>`}
+      </div>
+      ${changes.length ? `<button class="button" data-action="apply-job-draft" type="button">Apply Selected Changes</button>` : ""}
+      <p class="job-analysis-note">Only checked changes are applied. Nothing is published until you use Publish.</p>
+    </div>`;
+};
+
 const renderResumeEditor = () => `
   ${renderHeader()}
   <main class="resume-editor-shell">
@@ -846,14 +920,7 @@ const renderResumeEditor = () => `
         </div>
         <p class="job-analysis-status" role="status" aria-live="polite"></p>
       </div>
-      ${jobAnalysis?.result ? `
-        <div class="job-analysis-results">
-          <h3>Suggested match</h3>
-          <p>${escapeHtml(jobAnalysis.result.summary)}</p>
-          <ul>${jobAnalysis.result.keywords.map((keyword) => `<li>${escapeHtml(keyword)}</li>`).join("")}</ul>
-          <button class="button" data-action="apply-job-draft" type="button">Apply Suggestions to Draft</button>
-          <p class="job-analysis-note">Nothing is published until you use the Publish button above.</p>
-        </div>` : ""}
+      ${renderJobSuggestions()}
     </section>
 
     <section class="editor-grid">
@@ -1044,7 +1111,7 @@ const analyzeJob = async () => {
     });
     const result = await response.json();
     if (!response.ok) throw new Error(result.error || "Analysis failed.");
-    jobAnalysis = { url, result };
+    jobAnalysis = { url, result, changes: collectResumeChanges(activeResume, result.tailoredResume) };
     document.querySelector("#app").innerHTML = renderResumeEditor();
     bindEditor();
     document.querySelector(".job-analysis-status").textContent = "Analysis complete. Review the keywords before applying.";
@@ -1055,13 +1122,35 @@ const analyzeJob = async () => {
 };
 
 const applyJobDraft = () => {
-  if (!jobAnalysis?.result?.tailoredResume) return;
-  activeResume = { ...activeResume, ...structuredClone(jobAnalysis.result.tailoredResume) };
+  if (!jobAnalysis?.changes) return;
+  const selected = new Set([...document.querySelectorAll('input[name="job-suggestion"]:checked')].map((input) => input.value));
+  const chosen = jobAnalysis.changes.filter((change) => selected.has(change.id));
+  if (!chosen.length) {
+    document.querySelector(".job-analysis-status").textContent = "Select at least one suggested change.";
+    return;
+  }
+  syncResumeFromForm();
+  const nextResume = structuredClone(activeResume);
+  const setChange = ({ path, after }) => {
+    const parts = path.split(".");
+    const last = parts.pop();
+    let parent = nextResume;
+    parts.forEach((part, index) => {
+      if (parent[part] === undefined && after !== undefined) parent[part] = /^\d+$/.test(parts[index + 1] || last) ? [] : {};
+      parent = parent[part];
+    });
+    if (!parent) return;
+    if (after === undefined && Array.isArray(parent)) parent.splice(Number(last), 1);
+    else parent[last] = after;
+  };
+  chosen.filter((change) => change.after !== undefined).forEach(setChange);
+  chosen.filter((change) => change.after === undefined).sort((a, b) => b.path.localeCompare(a.path, undefined, { numeric: true })).forEach(setChange);
+  activeResume = nextResume;
   saveDraft();
   jobAnalysis = null;
   document.querySelector("#app").innerHTML = renderResumeEditor();
   bindEditor();
-  document.querySelector(".publish-status").textContent = "AI suggestions applied to your browser draft. Review them before publishing.";
+  document.querySelector(".publish-status").textContent = `${chosen.length} selected AI ${chosen.length === 1 ? "change" : "changes"} applied to your browser draft. Review before publishing.`;
 };
 
 const bindEditor = () => {
@@ -1088,6 +1177,8 @@ const bindEditor = () => {
   document.querySelector('[data-action="download-json"]')?.addEventListener("click", downloadResumeJson);
   document.querySelector('[data-action="analyze-job"]')?.addEventListener("click", analyzeJob);
   document.querySelector('[data-action="apply-job-draft"]')?.addEventListener("click", applyJobDraft);
+  document.querySelector('[data-action="select-suggestions"]')?.addEventListener("click", () => document.querySelectorAll('input[name="job-suggestion"]').forEach((input) => { input.checked = true; }));
+  document.querySelector('[data-action="clear-suggestions"]')?.addEventListener("click", () => document.querySelectorAll('input[name="job-suggestion"]').forEach((input) => { input.checked = false; }));
 };
 
 const bindHiddenEditorTrigger = () => {
