@@ -7,6 +7,7 @@ const editorPassword = "To@sty";
 const editorUnlockKey = "bflieck-resume-editor-unlocked";
 
 let activeResume = structuredClone(resumeData);
+let jobAnalysis = null;
 
 const escapeHtml = (value = "") =>
   String(value)
@@ -831,6 +832,30 @@ const renderResumeEditor = () => `
       </div>
     </section>
 
+    <section class="job-tailor" aria-labelledby="job-tailor-title">
+      <div>
+        <p class="section-kicker">AI Job Match</p>
+        <h2 id="job-tailor-title">Tailor this resume to a job posting</h2>
+        <p>Paste the employer's job-posting URL. AI will identify meaningful keywords and prepare a fact-preserving draft for your review.</p>
+      </div>
+      <div class="job-tailor-controls">
+        <label for="job-url">Job posting URL</label>
+        <div>
+          <input id="job-url" type="url" placeholder="https://company.com/jobs/..." value="${escapeHtml(jobAnalysis?.url || "")}">
+          <button class="button" data-action="analyze-job" type="button">Analyze Job</button>
+        </div>
+        <p class="job-analysis-status" role="status" aria-live="polite"></p>
+      </div>
+      ${jobAnalysis?.result ? `
+        <div class="job-analysis-results">
+          <h3>Suggested match</h3>
+          <p>${escapeHtml(jobAnalysis.result.summary)}</p>
+          <ul>${jobAnalysis.result.keywords.map((keyword) => `<li>${escapeHtml(keyword)}</li>`).join("")}</ul>
+          <button class="button" data-action="apply-job-draft" type="button">Apply Suggestions to Draft</button>
+          <p class="job-analysis-note">Nothing is published until you use the Publish button above.</p>
+        </div>` : ""}
+    </section>
+
     <section class="editor-grid">
       <form class="editor-panel" id="resume-form">
         <fieldset>
@@ -1002,6 +1027,43 @@ const downloadResumeText = () => {
   URL.revokeObjectURL(link.href);
 };
 
+const analyzeJob = async () => {
+  syncResumeFromForm();
+  const input = document.querySelector("#job-url");
+  const status = document.querySelector(".job-analysis-status");
+  const url = input?.value.trim();
+  if (!url) { status.textContent = "Enter a job-posting URL."; return; }
+  const editorKey = window.prompt("Enter the resume publish key to run AI analysis.");
+  if (!editorKey) return;
+  status.textContent = "Reading the job posting and tailoring your resume…";
+  try {
+    const response = await fetch("/.netlify/functions/analyze-job", {
+      method: "POST",
+      headers: { "Content-Type": "application/json", "x-publish-key": editorKey },
+      body: JSON.stringify({ url, resume: activeResume }),
+    });
+    const result = await response.json();
+    if (!response.ok) throw new Error(result.error || "Analysis failed.");
+    jobAnalysis = { url, result };
+    document.querySelector("#app").innerHTML = renderResumeEditor();
+    bindEditor();
+    document.querySelector(".job-analysis-status").textContent = "Analysis complete. Review the keywords before applying.";
+    document.querySelector(".job-tailor").scrollIntoView({ behavior: "smooth", block: "start" });
+  } catch (error) {
+    status.textContent = `Analysis failed: ${error.message}`;
+  }
+};
+
+const applyJobDraft = () => {
+  if (!jobAnalysis?.result?.tailoredResume) return;
+  activeResume = { ...activeResume, ...structuredClone(jobAnalysis.result.tailoredResume) };
+  saveDraft();
+  jobAnalysis = null;
+  document.querySelector("#app").innerHTML = renderResumeEditor();
+  bindEditor();
+  document.querySelector(".publish-status").textContent = "AI suggestions applied to your browser draft. Review them before publishing.";
+};
+
 const bindEditor = () => {
   const form = document.querySelector("#resume-form");
   form?.addEventListener("input", () => {
@@ -1024,6 +1086,8 @@ const bindEditor = () => {
   document.querySelector('[data-action="publish"]')?.addEventListener("click", publishResume);
   document.querySelector('[data-action="download-txt"]')?.addEventListener("click", downloadResumeText);
   document.querySelector('[data-action="download-json"]')?.addEventListener("click", downloadResumeJson);
+  document.querySelector('[data-action="analyze-job"]')?.addEventListener("click", analyzeJob);
+  document.querySelector('[data-action="apply-job-draft"]')?.addEventListener("click", applyJobDraft);
 };
 
 const bindHiddenEditorTrigger = () => {
