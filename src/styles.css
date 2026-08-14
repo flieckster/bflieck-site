@@ -1747,16 +1747,25 @@ nav {
 .job-analysis-results .keyword-list li { padding: 7px 10px; border: 1px solid var(--line); color: var(--ink); font-size: 12px; font-weight: 800; }
 .suggestion-actions { display: flex; gap: 8px; margin-bottom: 12px; }
 .suggestion-list { display: grid; gap: 10px; margin-bottom: 18px; }
-.suggestion-card { display: grid; grid-template-columns: auto 1fr; gap: 14px; margin: 0; padding: 16px; border: 1px solid var(--line); background: rgba(0, 0, 0, .24); cursor: pointer; }
-.suggestion-card > input { width: 18px; height: 18px; margin-top: 2px; accent-color: var(--purple-hot); }
+.suggestion-card { margin: 0; padding: 0; border: 1px solid var(--line); background: rgba(0, 0, 0, .24); }
+.suggestion-card-header { display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 14px 16px; border-bottom: 1px solid var(--line); background: rgba(154, 92, 255, .09); }
+.suggestion-card-header > div { display: grid; gap: 5px; }
+.suggestion-card-header small { color: var(--soft-ink); font-size: 9px; font-weight: 900; letter-spacing: .12em; text-transform: uppercase; }
+.suggestion-card-header strong { color: var(--purple-hot); font-size: 13px; letter-spacing: .04em; }
+.suggestion-toggle { position: relative; display: block; flex: 0 0 auto; margin: 0 !important; cursor: pointer; }
+.suggestion-toggle input { position: absolute; opacity: 0; pointer-events: none; }
+.suggestion-toggle span { display: block; min-width: 145px; padding: 9px 12px; border: 1px solid var(--purple-hot); color: var(--ink); font-size: 11px; font-weight: 900; text-align: center; text-transform: uppercase; }
+.suggestion-toggle input:checked + span { background: var(--purple-hot); color: #fff; }
+.suggestion-toggle input:checked + span::before { content: "✓ "; }
+.suggestion-toggle input:focus-visible + span { outline: 2px solid var(--ink); outline-offset: 2px; }
 .suggestion-content { display: grid; gap: 12px; min-width: 0; }
-.suggestion-content > strong { color: var(--purple-hot); font-size: 12px; letter-spacing: .08em; text-transform: uppercase; }
 .suggestion-comparison { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
 .suggestion-comparison > span { display: grid; align-content: start; gap: 7px; padding: 12px; color: var(--ink); font-size: 14px; line-height: 1.5; white-space: pre-wrap; }
 .suggestion-comparison > span:first-child { border-left: 3px solid #ef6b73; background: rgba(239, 107, 115, .08); }
 .suggestion-comparison > span:last-child { border-left: 3px solid #6fd5a7; background: rgba(111, 213, 167, .08); }
 .suggestion-comparison small { color: var(--soft-ink); font-size: 10px; font-weight: 900; letter-spacing: .1em; text-transform: uppercase; }
 .suggestion-comparison em { color: var(--soft-ink); }
+.no-suggestions { padding: 16px; border: 1px solid var(--line); }
 .job-analysis-note { display: inline-block; margin: 12px 0 0 12px; font-size: 12px; }
 
 .editor-panel {
@@ -1981,6 +1990,8 @@ nav {
   .job-tailor { grid-template-columns: 1fr; }
   .job-tailor-controls > div { flex-direction: column; }
   .suggestion-comparison { grid-template-columns: 1fr; }
+  .suggestion-card-header { align-items: stretch; flex-direction: column; }
+  .suggestion-toggle span { width: 100%; }
   .quick-facts,
   .about-grid,
   .metric-grid,

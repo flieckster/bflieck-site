@@ -872,16 +872,24 @@ const renderJobSuggestions = () => {
       </div>
       <div class="suggestion-list">
         ${changes.length ? changes.map((change) => `
-          <label class="suggestion-card">
-            <input type="checkbox" name="job-suggestion" value="${change.id}">
-            <span class="suggestion-content">
-              <strong>${escapeHtml(change.label)}</strong>
+          <article class="suggestion-card">
+            <div class="suggestion-card-header">
+              <div>
+                <small>Where this updates</small>
+                <strong>${escapeHtml(change.label)}</strong>
+              </div>
+              <label class="suggestion-toggle">
+                <input type="checkbox" name="job-suggestion" value="${change.id}">
+                <span>Include this change</span>
+              </label>
+            </div>
+            <div class="suggestion-content">
               <span class="suggestion-comparison">
                 <span><small>Remove / Current</small>${renderSuggestionValue(change.before, "Nothing currently here")}</span>
                 <span><small>Add / Suggested</small>${renderSuggestionValue(change.after, "Remove this content")}</span>
               </span>
-            </span>
-          </label>`).join("") : `<p>No wording changes were recommended.</p>`}
+            </div>
+          </article>`).join("") : `<p class="no-suggestions">The analysis found relevant keywords, but it did not recommend changing the résumé wording.</p>`}
       </div>
       ${changes.length ? `<button class="button" data-action="apply-job-draft" type="button">Apply Selected Changes</button>` : ""}
       <p class="job-analysis-note">Only checked changes are applied. Nothing is published until you use Publish.</p>
@@ -1185,6 +1193,10 @@ const bindEditor = () => {
   document.querySelector('[data-action="apply-job-draft"]')?.addEventListener("click", applyJobDraft);
   document.querySelector('[data-action="select-suggestions"]')?.addEventListener("click", () => document.querySelectorAll('input[name="job-suggestion"]').forEach((input) => { input.checked = true; }));
   document.querySelector('[data-action="clear-suggestions"]')?.addEventListener("click", () => document.querySelectorAll('input[name="job-suggestion"]').forEach((input) => { input.checked = false; }));
+  document.querySelectorAll('input[name="job-suggestion"]').forEach((input) => input.addEventListener("change", () => {
+    const count = document.querySelectorAll('input[name="job-suggestion"]:checked').length;
+    document.querySelector(".job-analysis-status").textContent = `${count} ${count === 1 ? "change" : "changes"} selected.`;
+  }));
 };
 
 const bindHiddenEditorTrigger = () => {
