@@ -907,6 +907,7 @@ const renderResumeEditor = () => `
       </div>
       <div class="editor-actions">
         <button class="button" data-action="save-draft" type="button">Save Draft</button>
+        <button class="button ghost" data-action="restore-published" type="button">Restore Published Resume</button>
         <a class="button ghost" href="#resume-print">Print View</a>
         <button class="button ghost" data-action="download-txt" type="button">Download TXT</button>
         <button class="button ghost" data-action="download-json" type="button">Download JSON</button>
@@ -1108,6 +1109,18 @@ const downloadResumeText = () => {
   URL.revokeObjectURL(link.href);
 };
 
+const restorePublishedResume = () => {
+  const confirmed = window.confirm("Restore the last published resume? This will replace the draft saved in this browser. Your published site will not change until you click Publish.");
+  if (!confirmed) return;
+  window.localStorage.removeItem(localResumeKey);
+  activeResume = structuredClone(resumeData);
+  jobAnalysis = null;
+  document.querySelector("#app").innerHTML = renderResumeEditor();
+  bindEditor();
+  document.querySelector(".publish-status").textContent = "Last published resume restored. This is now your browser draft; click Publish only if you want to republish it.";
+  window.scrollTo({ top: 0, behavior: "smooth" });
+};
+
 const analyzeJob = async () => {
   syncResumeFromForm();
   const input = document.querySelector("#job-url");
@@ -1189,6 +1202,7 @@ const bindEditor = () => {
   document.querySelector('[data-action="publish"]')?.addEventListener("click", publishResume);
   document.querySelector('[data-action="download-txt"]')?.addEventListener("click", downloadResumeText);
   document.querySelector('[data-action="download-json"]')?.addEventListener("click", downloadResumeJson);
+  document.querySelector('[data-action="restore-published"]')?.addEventListener("click", restorePublishedResume);
   document.querySelector('[data-action="analyze-job"]')?.addEventListener("click", analyzeJob);
   document.querySelector('[data-action="apply-job-draft"]')?.addEventListener("click", applyJobDraft);
   document.querySelector('[data-action="select-suggestions"]')?.addEventListener("click", () => document.querySelectorAll('input[name="job-suggestion"]').forEach((input) => { input.checked = true; }));
